@@ -11,13 +11,7 @@
     "homepage": "http://framework.zend.com/",
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "config": {
-        "platform": {
-            "php": "7.0"
-        }
-    },
     "require": {
-        "php": "7.0",
         "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
         "zendframework/zend-mvc": "^3.0.1",
         "zfcampus/zf-development-mode": "^3.0",
