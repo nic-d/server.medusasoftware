@@ -66,7 +66,7 @@ class LicenseController extends AbstractActionController
             $form->setData($this->params()->fromPost());
 
             if ($form->isValid()) {
-                $isValidLicense = $this->licenseService->verifyLicenseCode($form);
+                $isValidLicense = $this->licenseService->verifyLicenseCodeUsingForm($form);
             }
         }
 

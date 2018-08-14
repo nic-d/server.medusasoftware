@@ -130,11 +130,20 @@ class LicenseService
      * @return bool
      * @throws \ErrorException
      */
-    public function verifyLicenseCode(LicenseVerifyForm $licenseVerifyForm): bool
+    public function verifyLicenseCodeUsingForm(LicenseVerifyForm $licenseVerifyForm): bool
     {
         /** @var string $code */
         $code = $licenseVerifyForm->get('code')->getValue();
+        return $this->verifyLicenseCode($code);
+    }
 
+    /**
+     * @param string $code
+     * @return bool
+     * @throws \ErrorException
+     */
+    public function verifyLicenseCode(string $code): bool
+    {
         // First check if it exists in the DB
         $license = $this->entityManager
             ->getRepository(License::class)
