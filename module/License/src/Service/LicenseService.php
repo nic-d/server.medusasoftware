@@ -217,10 +217,10 @@ class LicenseService
             return false;
         }
 
-        // TODO: Verify the install limit
-//        if ($license->getInstallLimit() !== 0) {
-//            return false;
-//        }
+        // Verify the install limit
+        if ($license->getInstalls()->count() >= $license->getInstallLimit()) {
+            return false;
+        }
 
         return true;
     }

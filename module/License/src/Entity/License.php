@@ -9,6 +9,7 @@
 namespace License\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="License\Repository\LicenseRepository")
@@ -26,6 +27,7 @@ class License
     {
         $this->isBlocked = false;
         $this->installLimit = 2;
+        $this->installs = new ArrayCollection();
         $this->timestamp  = new \DateTime('now');
         $this->lastUpdate = new \DateTime('now');
     }
@@ -36,6 +38,11 @@ class License
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Install\Entity\Install", mappedBy="license")
+     */
+    private $installs;
 
     /**
      * @ORM\Column(name="license_code", type="string", length=250, unique=true)
@@ -294,6 +301,24 @@ class License
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInstalls()
+    {
+        return $this->installs;
+    }
+
+    /**
+     * @param mixed $installs
+     * @return $this
+     */
+    public function setInstalls($installs)
+    {
+        $this->installs = $installs;
         return $this;
     }
 }
