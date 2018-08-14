@@ -1,0 +1,39 @@
+{% extends layout().template %}
+
+{% set meta = {
+    title: 'Login',
+    description: 'Login',
+} %}
+
+{% block body %}
+    <div class="content content-full">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <h2 class="text-center">{{ translate('Two Factor Auth') }}</h2>
+
+                <div class="block block-bordered block-rounded">
+                    <div class="block-content">
+                        {{ form().prepare() }}
+                        {{ form().openTag(form) | raw }}
+                            <div class="form-group">
+                                {{ formRow(form.get('verificationSecret')) }}
+                            </div>
+
+                            {{ formRow(form.get('login_2fa_csrf')) }}
+
+                            <div class="form-group">
+                                {{ formRow(form.get('submit')) }}
+                            </div>
+                        {{ form().closeTag(form) | raw }}
+                    </div>
+                </div>
+
+                <hr>
+                <div class="text-center">
+                    <a href="{{ url('user.login') }}">{{ translate('Want to login with a different account') }}?</a>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock %}

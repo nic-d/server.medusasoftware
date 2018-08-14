@@ -1,0 +1,71 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Add License',
+} %}
+
+{% set activePage = 'licenses' %}
+
+{% block cssBefore %}
+    <link rel="stylesheet" id="css-main" href="{{ basePath('/static/js/plugins/simplemde/simplemde.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="block block-rounded">
+            <div class="block-content">
+                {{ form().prepare() }}
+                {{ form().openTag(form) | raw }}
+                    {{ formRow(form.get('csrf')) }}
+
+                    <div class="form-group">
+                        {{ formRow(form.get('licenseCode')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('validForEnvatoUsername')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('licensedIp')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('licensedDomain')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('installLimit')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('licenseExpirationDate')) }}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-switch mb-1">
+                            {{ formCheckbox(form.get('isBlocked')) }}
+                            <label class="custom-control-label" for="isBlocked">{{ formLabel(form.get('isBlocked')) }}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('note')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('submit')) }}
+                    </div>
+                {{ form().closeTag(form) | raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ basePath('/static/js/plugins/simplemde/simplemde.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(function(){ Dashmix.helpers(['simplemde']); });
+    </script>
+{% endblock %}

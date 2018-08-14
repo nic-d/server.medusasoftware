@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{{ meta.title }}</title>
+    <meta name="robots" content="NOFOLLOW, NOINDEX">
+
+    {% block cssBefore %}{% endblock %}
+
+    {# ASSETS #}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
+    <link rel="stylesheet" id="css-main" href="{{ basePath('/static/css/dashmix.min.css') }}">
+    <link rel="stylesheet" id="css-main" href="{{ basePath('/static/css/themes/xwork.min.css') }}">
+
+    {% block cssAfter %}{% endblock %}
+</head>
+<body>
+    <div id="page-container" class="page-header-dark main-content-boxed">
+        {# HEADER SECTION #}
+        <header id="page-header">
+            <div class="content-header">
+                <div>
+                    <a class="link-fx font-size-lg text-dual" href="{{ url('application.home') }}">
+                        <span class="font-w700 text-dual">MS Server</span>
+                    </a>
+                </div>
+
+                {# RIGHT MENU SECTION #}
+                <div>
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown">
+                            <span class="d-none d-sm-inline-block">{{ identity().username }}</span>
+                            <i class="fas fa-fw fa-angle-down ml-1"></i>
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
+                            <div>
+                                <a class="dropdown-item font-w600 mb-0" href="{{ url('user.account') }}">
+                                    <i class="fas fa-fw fa-cog text-gray mr-1"></i> Settings
+                                </a>
+                            </div>
+                            <div>
+                                <a class="dropdown-item mb-0" href="{{ url('user.logout') }}">
+                                    <i class="fas fa-fw fa-arrow-alt-circle-left text-gray mr-1"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        {# MAIN CONTAINER #}
+        <main id="main-container">
+            <div class="bg-white border-bottom">
+                <div class="content py-0">
+                    <ul class="nav nav-tabs nav-tabs-alt border-bottom-0 justify-content-center justify-content-md-start">
+                        <li class="nav-item">
+                            <a class="nav-link text-body-color py-4 {% if activePage == 'dashboard' %}active{% endif %}" href="{{ url('application.home') }}">
+                                <i class="fas fa-home fa-fw text-gray"></i>
+                                <span class="d-none d-md-inline ml-1">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-body-color py-4 {% if activePage == 'products' %}active{% endif %}" href="{{ url('product.index') }}">
+                                <i class="fas fa-database fa-fw text-gray"></i>
+                                <span class="d-none d-md-inline ml-1">Products</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-body-color py-4 {% if activePage == 'licenses' %}active{% endif %}" href="{{ url('license.index') }}">
+                                <i class="fas fa-key fa-fw text-gray"></i>
+                                <span class="d-none d-md-inline ml-1">Licenses</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-body-color py-4 {% if activePage == 'installations' %}active{% endif %}" href="">
+                                <i class="fas fa-hdd fa-fw text-gray"></i>
+                                <span class="d-none d-md-inline ml-1">Installations</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-body-color py-4" href="">
+                                <i class="fa fa-cog fa-fw text-gray"></i>
+                                <span class="d-none d-md-inline ml-1">Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+
+    {# JS ASSETS #}
+    <script src="{{ basePath('/static/js/dashmix.core.min.js') }}"></script>
+    <script src="{{ basePath('/static/js/dashmix.app.min.js') }}"></script>
+
+    {% block js %}{% endblock %}
+</body>
+</html>

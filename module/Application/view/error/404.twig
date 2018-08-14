@@ -1,0 +1,22 @@
+{% extends 'layout/layout.twig' %}
+
+{% set meta = {
+    title: '404 NOT FOUND',
+    description: '',
+    keywords: '',
+} %}
+
+{% block body %}
+    <div class="content">
+        <div class="block block-rounded block-bordered">
+            <div class="block-content">
+                <h1>404 Not Found</h1>
+                <h2 class="h4 text-danger">{{ message }}</h2>
+
+                {% if reason is not empty %}
+                    <p class="text-muted">{{ reason }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

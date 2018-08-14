@@ -1,0 +1,38 @@
+{% extends 'layout/layout.twig' %}
+
+{% set meta = {
+    title: 'ERROR',
+    description: '',
+    keywords: '',
+} %}
+
+{% block body %}
+    <div class="content">
+        <div class="block block-rounded block-bordered">
+            <div class="block-content">
+                <h1>An error occurred</h1>
+                <h2 class="h4 text-danger">{{ message }}</h2>
+
+                {% if display_exceptions is not empty %}
+                    <h2>Additional information:</h2>
+                    <dl>
+                        <dt>File:</dt>
+                        <dd>
+                            <pre>{{ exception.file }} : {{ exception.line }}</pre>
+                        </dd>
+
+                        <dt>Message:</dt>
+                        <dd>
+                            <pre>{{ exception.message }}</pre>
+                        </dd>
+
+                        <dt>Stack Trace:</dt>
+                        <dd>
+                            <pre>{{ exception.traceAsString }}</pre>
+                        </dd>
+                    </dl>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

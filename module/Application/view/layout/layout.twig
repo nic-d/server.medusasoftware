@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <title>{{ meta.title }}</title>
+    <meta name="description" content="{{ meta.description }}">
+    <meta name="keywords" content="{{ meta.keywords }}">
+    <meta name="author" content="MedusaSoftware">
+
+    {# OPEN GRAPH META #}
+    <meta property="og:title" content="{{ og.title }}">
+    <meta property="og:site_name" content="">
+    <meta property="og:description" content="{{ og.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    {# ASSETS #}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
+    <link rel="stylesheet" id="css-main" href="{{ basePath('/static/css/dashmix.min.css') }}">
+    <link rel="stylesheet" id="css-main" href="{{ basePath('/static/css/themes/xwork.min.css') }}">
+</head>
+<body>
+    <div id="page-container" class="page-header-fixed page-header-dark main-content-boxed">
+        <header id="page-header">
+            <div class="content-header">
+                <div>
+                    <a class="link-fx font-size-lg font-w700 text-dual" href="{{ url('application.index') }}">
+                        MS Server
+                    </a>
+                </div>
+
+                <!-- Right Section -->
+                <div class="d-flex align-items-center">
+                    <div class="d-none d-md-block mr-3">
+                        <a class="btn btn-dual" href="{{ url('application.index') }}">
+                            <span class="font-size-sm d-none d-lg-inline">Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-container">
+            {% block body %}{% endblock %}
+        </main>
+    </div>
+
+    <script src="{{ basePath('/static/js/dashmix.core.min.js') }}"></script>
+    <script src="{{ basePath('/static/js/dashmix.app.min.js') }}"></script>
+
+    {% block js %}{% endblock %}
+</body>
+</html>

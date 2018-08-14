@@ -1,0 +1,52 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Products',
+} %}
+
+{% set activePage = 'products' %}
+
+{% block body %}
+    <div class="content">
+        <h2 class="content-heading">
+            <a href="{{ url('product.index/add') }}" class="btn btn-primary btn-sm float-right">
+                Add Product
+            </a>
+
+            All Products
+        </h2>
+
+        <div class="block block-rounded block-bordered">
+            <div class="block-content">
+                <table class="table table-sm table-vcenter">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="d-none d-sm-table-cell">Created By</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in products %}
+                            <tr>
+                                <td class="font-w600">
+                                    {{ item.name }}
+                                </td>
+                                <td>
+                                    {{ item.createdByUser.username }}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="{{ url('product.index/edit', {hash: item.hash}) }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Home',
+} %}
+
+{% set activePage = 'dashboard' %}
+
+{% block body %}
+    <div class="content">
+        <div class="row">
+            {# ITEM 1 #}
+            <div class="col-lg-4">
+                <a class="block block-rounded block-link-shadow bg-primary" href="">
+                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-2x fa-database text-primary-lighter"></i>
+                        </div>
+                        <div class="ml-3 text-right">
+                            <p class="text-white font-size-h3 font-w300 mb-0">
+                                45
+                            </p>
+                            <p class="text-white-75 mb-0">
+                                Products
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4">
+                <a class="block block-rounded block-link-shadow bg-primary" href="">
+                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-2x fa-key text-primary-lighter"></i>
+                        </div>
+                        <div class="ml-3 text-right">
+                            <p class="text-white font-size-h3 font-w300 mb-0">
+                                45
+                            </p>
+                            <p class="text-white-75 mb-0">
+                                Licenses
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4">
+                <a class="block block-rounded block-link-shadow bg-primary" href="">
+                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                        <div>
+                            <i class="fas fa-2x fa-hdd text-primary-lighter"></i>
+                        </div>
+                        <div class="ml-3 text-right">
+                            <p class="text-white font-size-h3 font-w300 mb-0">
+                                45
+                            </p>
+                            <p class="text-white-75 mb-0">
+                                Installations
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Licenses',
+} %}
+
+{% set activePage = 'licenses' %}
+
+{% block body %}
+    <div class="content">
+        <h2 class="content-heading">
+            <a href="{{ url('license.index/add') }}" class="btn btn-primary btn-sm float-right">
+                Add License
+            </a>
+
+            <button type="button" class="btn btn-secondary btn-sm float-right mr-1" data-toggle="modal" data-target="#license-modal">
+                <i></i>
+                Verify License Code
+            </button>
+
+            All Licenses
+        </h2>
+
+        <div class="block block-rounded block-bordered">
+            <div class="block-content">
+                <table class="table table-sm table-vcenter">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>IP</th>
+                            <th>Domain</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in licenses %}
+                            <tr>
+                                <td>{{ item.licenseCode }}</td>
+                                <td>{{ item.licensedIp }}</td>
+                                <td>{{ item.licensedDomain }}</td>
+
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="{{ url('license.index/edit', {code: item.licenseCode}) }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {# VERIFY LICENSE MODAL #}
+    <div class="modal" id="license-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                {{ form().prepare() }}
+                {{ form().openTag(form) | raw }}
+                    <div class="modal-header">
+                        <h5 class="modal-title">Verify License Code</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body pb-1">
+                        {# VALID LICENSE ALERT #}
+                        <div class="alert alert-success" id="alert-success" style="display: none;">
+                            <p class="mb-0">
+                                <i class="fas fa-fw fa-check"></i>
+                                Success! This license code is <strong>valid</strong>!
+                            </p>
+                        </div>
+
+                        {# INVALID LICENSE ALERT #}
+                        <div class="alert alert-danger" id="alert-danger" style="display: none;">
+                            <p class="mb-0">
+                                <i class="fas fa-fw fa-exclamation-circle"></i>
+                                Error! This license code is <strong>invalid</strong>!
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            {{ formRow(form.get('code')) }}
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                        {{ formRow(form.get('submit')) }}
+                    </div>
+                {{ form().closeTag(form) | raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var validLicenseAlert = jQuery('#alert-success');
+        var invalidLicenseAlert = jQuery('#alert-danger');
+
+        jQuery('form#licenseVerify').on('submit', function (e) {
+            e.preventDefault();
+            validLicenseAlert.hide();
+            invalidLicenseAlert.hide();
+
+            jQuery.ajax({
+                method: 'POST',
+                url: '{{ url('license.index/verify') }}',
+                data: {
+                    code: $(this).find('#code').val()
+                },
+
+                success: function (response) {
+                    invalidLicenseAlert.hide();
+                    validLicenseAlert.show();
+                },
+
+                error: function (response) {
+                    validLicenseAlert.hide();
+                    invalidLicenseAlert.show();
+                }
+            });
+        });
+    </script>
+{% endblock %}

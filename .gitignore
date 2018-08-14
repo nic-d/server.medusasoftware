@@ -1,0 +1,12 @@
+.idea/
+.env
+vendor/
+node_modules/
+data/cache/*
+!data/cache/.gitkeep
+!public/src/scss/vendor/
+config/development.config.php
+!public/upload/tmp/.gitkeep
+public/upload/*
+data/DoctrineORMModule/Proxy/*
+data/tmp/*.log

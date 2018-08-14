@@ -1,0 +1,144 @@
+{% extends layout().template %}
+
+{% set meta = {
+    title: 'Account Settings',
+    description: 'Account Settings',
+} %}
+
+{% block body %}
+    <div class="bg-dark py-30">
+        <div class="content content-full text-center">
+            <h1 class="h3 text-white font-w700 mb-10">{{ translate('Account Settings') }}</h1>
+        </div>
+    </div>
+
+    <div class="content content-boxed" id="boxed-container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="block block-bordered block-rounded">
+                    <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active show" href="#tabs-general">{{ translate('General') }}</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tabs-security">{{ translate('Security') }}</a>
+                        </li>
+                    </ul>
+
+                    <div class="block-content tab-content">
+                        <div class="tab-pane active show" id="tabs-general">
+                            {{ form().prepare() }}
+                            {{ form().openTag(accountForm) | raw }}
+                                <div class="form-group">
+                                    {{ formRow(accountForm.get('username')) }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ formRow(accountForm.get('email')) }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ formRow(accountForm.get('password')) }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ formRow(accountForm.get('confirm_password')) }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ formRow(accountForm.get('submit')) }}
+                                </div>
+                            {{ form().closeTag(accountForm) | raw }}
+                        </div>
+
+                        <div class="tab-pane" id="tabs-security">
+                            {% if user.googleTwoFactorVerified == 0 %}
+                                {% if twoFactorAuth.qrCode is null %}
+                                    <div class="alert alert-warning">
+                                        {{ translate('Sorry, we can\'t display the QR code right now') }}.
+                                    </div>
+                                {% else %}
+                                    <div class="text-center">
+                                        <div class="alert alert-secondary">
+                                            <h3 class="alert-heading font-size-h4 font-w400">{{ translate('Setting up 2FA') }}</h3>
+
+                                            <p class="mb-0">
+                                                {{ translate('Make your account extra secure by adding an additional authentication layer') }}.
+                                                <br>
+
+                                                {{ translate('Use the') }}
+                                                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank">
+                                                    Google Authenticator
+                                                </a>
+                                                {{ translate('App to scan the QR code below') }}.
+                                            </p>
+                                        </div>
+
+                                        <img src="{{ twoFactorAuth.qrCode }}">
+
+                                        {{ form().prepare() }}
+                                        {{ form().openTag(accountTwoFactorForm) | raw }}
+                                            <div class="form-group">
+                                                {{ formRow(accountTwoFactorForm.get('verificationSecret')) }}
+                                            </div>
+
+                                            {{ formRow(accountTwoFactorForm.get('account_2fa_csrf')) }}
+
+                                            <div class="form-group">
+                                                {{ formRow(accountTwoFactorForm.get('submit')) }}
+                                            </div>
+                                        {{ form().closeTag(accountTwoFactorForm) | raw }}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="text-center">
+                                    <div class="alert alert-info">
+                                        <h3 class="alert-heading font-size-h4 font-w400">{{ translate('2FA Enabled') }}!</h3>
+
+                                        <p class="mb-0">
+                                            {{ translate('You currently have Two Factor Authentication enabled') }}.
+
+                                            {{ form().prepare() }}
+                                            {{ form().openTag(accountTwoFactorDisableForm) | raw }}
+                                                {{ formRow(accountTwoFactorDisableForm.get('account_2fa_disable_csrf')) }}
+                                                {{ formRow(accountTwoFactorDisableForm.get('submit')) }}
+                                            {{ form().closeTag(accountTwoFactorDisableForm) | raw }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="block block-bordered">
+                                    <div class="block-header">
+                                        <h3 class="block-title">{{ translate('Backup Codes') }}:</h3>
+                                    </div>
+
+                                    <div class="block-content">
+                                        {% if user.backupCodes is empty %}
+                                            <div class="text-center mb-10">
+                                                {{ form().prepare() }}
+                                                {{ form().openTag(accountTwoFactorGenerateForm) | raw }}
+                                                    {{ formRow(accountTwoFactorGenerateForm.get('account_2fa_code_csrf')) }}
+                                                    {{ formRow(accountTwoFactorGenerateForm.get('submit')) }}
+                                                {{ form().closeTag(accountTwoFactorGenerateForm) | raw }}
+                                            </div>
+                                        {% else %}
+                                            <p>{{ translate('If you lose access to your authenticator, you can download and use these codes') }}.</p>
+<pre>
+<code>
+{% for item in user.backupCodes %}
+    {{ item.code }}
+{% endfor %}
+</code>
+</pre>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

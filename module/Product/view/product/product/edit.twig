@@ -1,0 +1,60 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Edit Product: ' ~ product.name,
+} %}
+
+{% set activePage = 'products' %}
+
+{% block cssBefore %}
+    <link rel="stylesheet" id="css-main" href="{{ basePath('/static/js/plugins/simplemde/simplemde.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="block block-rounded">
+            <div class="block-header">
+                <h3 class="block-title">Edit: <span class="font-w300">{{ product.name }}</span></h3>
+
+                <div class="block-options">
+                    {{ form().prepare() }}
+                    {{ form().openTag(deleteForm) | raw }}
+                        {{ formRow(deleteForm.get('delete_csrf')) }}
+                        {{ formRow(deleteForm.get('submit')) }}
+                    {{ form().closeTag(deleteForm) | raw }}
+                </div>
+            </div>
+
+            <div class="block-content">
+                {{ form().prepare() }}
+                {{ form().openTag(form) | raw }}
+                    {{ formRow(form.get('csrf')) }}
+
+                    <div class="form-group">
+                        {{ formRow(form.get('name')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('description')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('envatoProduct')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ formRow(form.get('submit')) }}
+                    </div>
+                {{ form().closeTag(form) | raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ basePath('/static/js/plugins/simplemde/simplemde.min.js') }}"></script>
+
+    <script type="text/javascript">
+        jQuery(function(){ Dashmix.helpers(['simplemde']); });
+    </script>
+{% endblock %}
