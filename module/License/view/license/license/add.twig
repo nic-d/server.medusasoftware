@@ -12,7 +12,16 @@
 
 {% block body %}
     <div class="content">
-        <div class="block block-rounded">
+        <h2 class="content-heading">
+            <a href="{{ url('license.index') }}" class="btn btn-hero-secondary btn-hero-sm float-right">
+                <i class="fas fa-arrow-circle-left"></i>
+                All Licenses
+            </a>
+
+            Add License
+        </h2>
+
+        <div class="block block-rounded block-fx-shadow">
             <div class="block-content">
                 {{ form().prepare() }}
                 {{ form().openTag(form) | raw }}
