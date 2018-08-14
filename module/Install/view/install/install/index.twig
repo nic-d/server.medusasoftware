@@ -1,0 +1,42 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Installations',
+} %}
+
+{% set activePage = 'installations' %}
+
+{% block body %}
+    <div class="content">
+        <h2 class="content-heading">
+            All Installations
+        </h2>
+
+        <div class="block block-rounded block-bordered">
+            <div class="block-content">
+                <table class="table table-sm table-vcenter">
+                    <thead>
+                        <tr>
+                            <th>License</th>
+                            <th>Product</th>
+                            <th>IP</th>
+                            <th>Domain</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in installations %}
+                            <tr>
+                                <td>{{ item.license.licenseCode }}</td>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.ipAddress }}</td>
+                                <td>{{ item.domain }}</td>
+                                <td>{{ item.timestamp.date | date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

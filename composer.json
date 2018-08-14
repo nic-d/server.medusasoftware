@@ -63,6 +63,7 @@
         "psr-4": {
             "Application\\": "module/Application/src/",
             "Envato\\": "module/Envato/src/",
+            "Install\\": "module/Install/src/",
             "License\\": "module/License/src/",
             "Product\\": "module/Product/src/",
             "User\\": "module/User/src/"
