@@ -7,10 +7,11 @@
 
 namespace Application;
 
+
 use Zend\Router\Http\Literal;
 use Application\Service\Twig\MarkdownExtension;
-use Zend\ServiceManager\Factory\InvokableFactory;
 use Application\View\Helper\Factory\UrlHelperFactory;
+use Application\Controller\Factory\IndexControllerFactory;
 use Application\Service\Twig\Factory\MarkdownExtensionFactory;
 
 return [
@@ -42,7 +43,7 @@ return [
 
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            Controller\IndexController::class => IndexControllerFactory::class,
         ],
     ],
 

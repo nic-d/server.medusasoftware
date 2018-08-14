@@ -11,7 +11,7 @@ namespace License\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="License\Repository\LicenseRepository")
  * @ORM\Table(name="license_license")
  *
  * Class License

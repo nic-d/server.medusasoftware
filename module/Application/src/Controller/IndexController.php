@@ -8,6 +8,9 @@
 namespace Application\Controller;
 
 use Zend\View\Model\ViewModel;
+use Install\Service\InstallService;
+use License\Service\LicenseService;
+use Product\Service\ProductService;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
@@ -16,12 +19,30 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class IndexController extends AbstractActionController
 {
+    /** @var InstallService $installService */
+    private $installService;
+
+    /** @var LicenseService $licenseService */
+    private $licenseService;
+
+    /** @var ProductService $productService */
+    private $productService;
+
     /**
-     * @return ViewModel
+     * IndexController constructor.
+     * @param InstallService $installService
+     * @param LicenseService $licenseService
+     * @param ProductService $productService
      */
-    public function indexAction()
+    public function __construct(
+        InstallService $installService,
+        LicenseService $licenseService,
+        ProductService $productService
+    )
     {
-        return new ViewModel();
+        $this->installService = $installService;
+        $this->licenseService = $licenseService;
+        $this->productService = $productService;
     }
 
     /**
@@ -29,6 +50,14 @@ class IndexController extends AbstractActionController
      */
     public function homeAction()
     {
-        return new ViewModel();
+        $results = [
+            'licenses' => $this->licenseService->countLicenses(),
+            'products' => $this->productService->countProducts(),
+            'installations' => $this->installService->countInstallations(),
+        ];
+
+        return new ViewModel([
+            'results' => $results,
+        ]);
     }
 }

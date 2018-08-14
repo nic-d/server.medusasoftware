@@ -51,6 +51,16 @@ class LicenseService
     }
 
     /**
+     * @return int
+     */
+    public function countLicenses(): int
+    {
+        return $this->entityManager
+            ->getRepository(License::class)
+            ->countRows();
+    }
+
+    /**
      * @return array
      */
     public function getLicenses(): array

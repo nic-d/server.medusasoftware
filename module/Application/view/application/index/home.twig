@@ -11,14 +11,14 @@
         <div class="row">
             {# ITEM 1 #}
             <div class="col-lg-4">
-                <a class="block block-rounded block-link-shadow bg-primary" href="">
+                <a class="block block-rounded block-link-shadow bg-primary" href="{{ url('product.index') }}">
                     <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                         <div>
                             <i class="fas fa-2x fa-database text-primary-lighter"></i>
                         </div>
                         <div class="ml-3 text-right">
                             <p class="text-white font-size-h3 font-w300 mb-0">
-                                45
+                                {{ results.products }}
                             </p>
                             <p class="text-white-75 mb-0">
                                 Products
@@ -29,14 +29,14 @@
             </div>
 
             <div class="col-lg-4">
-                <a class="block block-rounded block-link-shadow bg-primary" href="">
+                <a class="block block-rounded block-link-shadow bg-primary" href="{{ url('license.index') }}">
                     <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                         <div>
                             <i class="fas fa-2x fa-key text-primary-lighter"></i>
                         </div>
                         <div class="ml-3 text-right">
                             <p class="text-white font-size-h3 font-w300 mb-0">
-                                45
+                                {{ results.licenses }}
                             </p>
                             <p class="text-white-75 mb-0">
                                 Licenses
@@ -47,14 +47,14 @@
             </div>
 
             <div class="col-lg-4">
-                <a class="block block-rounded block-link-shadow bg-primary" href="">
+                <a class="block block-rounded block-link-shadow bg-primary" href="{{ url('install.index') }}">
                     <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                         <div>
                             <i class="fas fa-2x fa-hdd text-primary-lighter"></i>
                         </div>
                         <div class="ml-3 text-right">
                             <p class="text-white font-size-h3 font-w300 mb-0">
-                                45
+                                {{ results.installations }}
                             </p>
                             <p class="text-white-75 mb-0">
                                 Installations

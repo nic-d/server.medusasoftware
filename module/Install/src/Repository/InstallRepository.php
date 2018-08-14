@@ -20,6 +20,30 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class InstallRepository extends EntityRepository
 {
     /**
+     * @return int|mixed
+     */
+    public function countRows(): int
+    {
+        /** @var QueryBuilder $qb */
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder();
+
+        $qb
+            ->select('count(i.id)')
+            ->from(Install::class, 'i');
+
+        $query = $qb->getQuery();
+
+        try {
+            $result = $query->getSingleScalarResult();
+        } catch (\Exception $e) {
+            return 0;
+        }
+
+        return $result;
+    }
+
+    /**
      * @param int $offset
      * @param int $limit
      * @return Paginator

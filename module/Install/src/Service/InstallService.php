@@ -42,6 +42,16 @@ class InstallService
     }
 
     /**
+     * @return int
+     */
+    public function countInstallations(): int
+    {
+        return $this->entityManager
+            ->getRepository(Install::class)
+            ->countRows();
+    }
+
+    /**
      * @param int $page
      * @return mixed
      */

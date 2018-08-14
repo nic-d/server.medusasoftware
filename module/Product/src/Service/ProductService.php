@@ -50,6 +50,16 @@ class ProductService
     }
 
     /**
+     * @return int
+     */
+    public function countProducts(): int
+    {
+        return $this->entityManager
+            ->getRepository(Product::class)
+            ->countRows();
+    }
+
+    /**
      * @return array
      */
     public function getProducts(): array
