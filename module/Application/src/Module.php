@@ -55,16 +55,6 @@ class Module
         /** @var EventManager $eventManager */
         $eventManager = $event->getApplication()->getEventManager();
 
-        /** @var SharedEventManager $sharedEventManager */
-        $sharedEventManager = $eventManager->getSharedManager();
-
-        $sharedEventManager->attach(
-            AbstractActionController::class,
-            MvcEvent::EVENT_DISPATCH,
-            [$this, 'onDispatch'],
-            100
-        );
-
         // We'll attach error events so we can log them
         $eventManager->attach(
             MvcEvent::EVENT_DISPATCH_ERROR,
@@ -75,27 +65,6 @@ class Module
             MvcEvent::EVENT_RENDER_ERROR,
             [$this, 'handleError']
         );
-    }
-
-    /**
-     * @param MvcEvent $event
-     */
-    public function onDispatch(MvcEvent $event)
-    {
-        /** @var Request $request */
-        $request = $event->getRequest();
-
-        if ($request->isGet()) {
-            /** @var ViewModel $viewModel */
-            $viewModel = $event->getViewModel();
-
-            // If this is an AJAX request, set the template var to ajax else standard layout
-            if ($request->isXmlHttpRequest()) {
-                $viewModel->setVariable('template', 'layout/ajax.twig');
-            } else {
-                $viewModel->setVariable('template', 'layout/layout.twig');
-            }
-        }
     }
 
     /**

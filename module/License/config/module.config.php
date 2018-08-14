@@ -78,7 +78,7 @@ return [
             ],
 
             'license.api' => [
-                'type' => Segment::class,
+                'type' => Literal::class,
                 'options' => [
                     'route'    => '/api/license',
                     'defaults' => [

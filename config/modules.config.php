@@ -18,6 +18,7 @@ return [
     'Zend\Cache',
     'Zend\Router',
     'Zend\Validator',
+    'Zend\InputFilter',
     'DoctrineModule',
     'DoctrineORMModule',
     'BsbFlysystem',

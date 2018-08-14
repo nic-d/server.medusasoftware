@@ -9,6 +9,7 @@
 namespace License\Controller\Factory;
 
 use License\Service\LicenseService;
+use License\Filter\LicenseInputFilter;
 use Interop\Container\ContainerInterface;
 use License\Controller\LicenseApiController;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -28,6 +29,8 @@ class LicenseApiControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $licenseService = $container->get(LicenseService::class);
-        return new LicenseApiController($licenseService);
+        $licenseInputFilter = $container->get('InputFilterManager')->get(LicenseInputFilter::class);
+
+        return new LicenseApiController($licenseService, $licenseInputFilter);
     }
 }

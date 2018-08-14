@@ -139,10 +139,12 @@ class LicenseService
 
     /**
      * @param string $code
+     * @param string $ip
+     * @param string $domain
      * @return bool
      * @throws \ErrorException
      */
-    public function verifyLicenseCode(string $code): bool
+    public function verifyLicenseCode(string $code, string $ip = '', string $domain = ''): bool
     {
         // First check if it exists in the DB
         $license = $this->entityManager
@@ -153,7 +155,8 @@ class LicenseService
 
         // The license exists in our database
         if (!is_null($license)) {
-            return true;
+            // Verify the constraints
+            return $this->verifyLicenseConstraints($license, $ip, $domain);
         }
 
         // Authenticate with our clientSecret key and verify the license code with envato
@@ -164,8 +167,48 @@ class LicenseService
             return false;
         }
 
-        // The license code exists, so save it in our DB
-        $this->saveEnvatoLicenseCode($code, $result);
+        // The license code exists with Envato, so save it in our DB
+        $this->saveEnvatoLicenseCode($code, $result, $ip, $domain);
+        return true;
+    }
+
+    /**
+     * @param License $license
+     * @param string $ip
+     * @param string $domain
+     * @return bool
+     */
+    private function verifyLicenseConstraints(License $license, string $ip = '', string $domain = ''): bool
+    {
+        // Check that the license isn't blocked
+        if ($license->getIsBlocked()) {
+            return false;
+        }
+
+        // Verify the IP if it's restricted by IP
+        if (!empty($ip) && (!is_null($license->getLicensedIp()) || empty($license->getLicensedIp()))) {
+            if ($ip !== $license->getLicensedIp()) {
+                return false;
+            }
+        }
+
+        // Verify domain IP if it's restricted by domain
+        if (!empty($domain) && (!is_null($license->getLicensedDomain()) || empty($license->getLicensedDomain()))) {
+            if ($domain !== $license->getLicensedDomain()) {
+                return false;
+            }
+        }
+
+        // Verify the expiration date
+        if (!is_null($license->getLicenseExpirationDate()) && $license->getLicenseExpirationDate() >= time()) {
+            return false;
+        }
+
+        // TODO: Verify the install limit
+//        if ($license->getInstallLimit() !== 0) {
+//            return false;
+//        }
+
         return true;
     }
 
@@ -174,23 +217,19 @@ class LicenseService
      * @param array $licenseData
      * @param string $ip
      * @param string $domain
-     * @return bool
+     * @return License
      */
     private function saveEnvatoLicenseCode(
         string $licenseCode,
         array $licenseData,
         string $ip = '',
         string $domain = ''
-    ): bool
+    ): License
     {
         /** @var License $license */
         $license = new License();
         $license->setLicenseCode($licenseCode);
         $license->setValidForEnvatoUsername($licenseData['buyer']);
-
-        // Set a default note so we know it was saved when verifying the code
-        $currentDate = date('Y-m-d');
-        $license->setNote('License saved on: ' . $currentDate . ' when verifying license code from: MSServer application.');
 
         if (!empty($ip)) {
             $license->setLicensedIp($ip);
@@ -203,7 +242,7 @@ class LicenseService
         $this->entityManager->persist($license);
         $this->entityManager->flush();
 
-        return true;
+        return $license;
     }
 
     /**

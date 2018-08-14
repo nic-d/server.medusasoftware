@@ -55,7 +55,9 @@
         "erusev/parsedown": "^1.7",
         "zendframework/zend-i18n": "^2.9",
         "zendframework/zend-log": "^2.10",
-        "php-curl-class/php-curl-class": "^8.2"
+        "php-curl-class/php-curl-class": "^8.2",
+        "zendframework/zend-hydrator": "^2.4",
+        "zendframework/zend-inputfilter": "^2.8"
     },
     "autoload": {
         "psr-4": {
