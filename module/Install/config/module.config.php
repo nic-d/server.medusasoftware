@@ -9,6 +9,7 @@
 use Install\Service;
 use Install\Controller;
 use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 return [
@@ -23,12 +24,28 @@ return [
                         'action'     => 'index',
                     ],
                 ],
+
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'view' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route'    => '/[:hash]/view',
+                            'constraints' => [
+                                'hash' => '[a-zA-Z0-9_-]*',
+                            ],
+                            'defaults' => [
+                                'action' => 'view',
+                            ],
+                        ],
+                    ],
+                ],
             ],
 
             'install.api' => [
                 'type' => Literal::class,
                 'options' => [
-                    'route'    => '/api/installs',
+                    'route'    => '/api/install',
                     'defaults' => [
                         'controller' => Controller\InstallApiController::class,
                     ],
@@ -49,7 +66,7 @@ return [
             Controller\InstallController::class => [
                 [
                     'roles'   => ['User'],
-                    'actions' => ['index'],
+                    'actions' => ['index', 'view'],
                 ],
             ],
         ],

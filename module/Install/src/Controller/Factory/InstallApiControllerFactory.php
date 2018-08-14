@@ -9,6 +9,7 @@
 namespace Install\Controller\Factory;
 
 use Install\Service\InstallService;
+use Install\Filter\InstallInputFilter;
 use Interop\Container\ContainerInterface;
 use Install\Controller\InstallApiController;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -28,6 +29,8 @@ class InstallApiControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $installService = $container->get(InstallService::class);
-        return new InstallApiController($installService);
+        $installInputFilter = $container->get('InputFilterManager')->get(InstallInputFilter::class);
+
+        return new InstallApiController($installService, $installInputFilter);
     }
 }

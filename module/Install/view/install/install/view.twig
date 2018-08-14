@@ -1,0 +1,74 @@
+<dl class="row">
+    <dt class="col-sm-3"><strong>Product:</strong></dt>
+    <dd class="col-sm-9">
+        <a href="{{ url('product.index/edit', {hash: installation.product.hash}) }}">
+            {{ installation.product.name }}
+        </a>
+    </dd>
+
+    <dt class="col-sm-3"><strong>License:</strong></dt>
+    <dd class="col-sm-9">
+        <a href="{{ url('license.index/edit', {code: installation.license.licenseCode}) }}">
+            {{ installation.license.licenseCode }}
+        </a>
+    </dd>
+
+    <dt class="col-sm-3"><strong>IP Address:</strong></dt>
+    <dd class="col-sm-9">{{ installation.ipAddress }}</dd>
+
+    <dt class="col-sm-3"><strong>Domain:</strong></dt>
+    <dd class="col-sm-9">
+        <a href="http://{{ installation.domain }}" target="_blank" rel="noreferrer">
+            {{ installation.domain }}
+        </a>
+    </dd>
+
+    <dt class="col-sm-3"><strong>Full Install URL:</strong></dt>
+    <dd class="col-sm-9">
+        <a href="{{ installation.fullUrl }}" target="_blank" rel="noreferrer">
+            {{ installation.fullUrl }}
+        </a>
+    </dd>
+
+    <dt class="col-sm-3"><strong>IP Address:</strong></dt>
+    <dd class="col-sm-9">{{ installation.ipAddress }}</dd>
+
+    <dt class="col-sm-3"><strong>Server Name:</strong></dt>
+    <dd class="col-sm-9">
+        {% if installation.serverName %}
+            {{ installation.serverName }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>PHP Version:</strong></dt>
+    <dd class="col-sm-9">
+        {% if installation.phpVersion %}
+            {{ installation.phpVersion }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Database Platform:</strong></dt>
+    <dd class="col-sm-9">
+        {% if installation.databasePlatform %}
+            {{ installation.databasePlatform }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Database Version:</strong></dt>
+    <dd class="col-sm-9">
+        {% if installation.databaseVersion %}
+            {{ installation.databaseVersion }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Date Installed:</strong></dt>
+    <dd class="col-sm-9">{{ installation.timestamp.date | date }}</dd>
+</dl>

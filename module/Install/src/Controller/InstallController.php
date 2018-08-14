@@ -46,4 +46,27 @@ class InstallController extends AbstractActionController
             'installations' => $installations,
         ]);
     }
+
+    /**
+     * @return ViewModel
+     */
+    public function viewAction()
+    {
+        /** @var string|null $hash */
+        $hash = $this->params()->fromRoute('hash');
+
+        if (is_null($hash)) {
+            return $this->notFoundAction();
+        }
+
+        try {
+            $installation = $this->installService->getInstallation($hash);
+        } catch (\Exception $e) {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel([
+            'installation' => $installation,
+        ]);
+    }
 }

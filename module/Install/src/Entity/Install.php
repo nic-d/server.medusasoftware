@@ -24,6 +24,7 @@ class Install
      */
     public function __construct()
     {
+        $this->hash = hash('crc32', random_bytes(8));
         $this->timestamp  = new \DateTime('now');
     }
 
@@ -33,6 +34,11 @@ class Install
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="hash", type="string", length=8, unique=true)
+     */
+    private $hash;
 
     /**
      * @ORM\ManyToOne(targetEntity="Product\Entity\Product")
@@ -293,6 +299,24 @@ class Install
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param mixed $hash
+     * @return $this
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
         return $this;
     }
 }
