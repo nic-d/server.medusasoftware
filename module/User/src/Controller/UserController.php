@@ -58,7 +58,6 @@ class UserController extends AbstractActionController
         }
 
         $accountForm = $this->userService->prepareAccountForm($user);
-        $accountDeleteForm = $this->userService->prepareAccountDeleteForm();
         $accountTwoFactorForm = $this->twoFactorService->prepareAccountTwoFactorForm();
         $accountTwoFactorDisableForm = $this->twoFactorService->prepareAccountTwoFactorDisableForm();
         $accountTwoFactorGenerateForm = $this->twoFactorService->prepareAccountTwoFactorCodeForm();
@@ -81,11 +80,9 @@ class UserController extends AbstractActionController
         return new ViewModel([
             'user'                         => $user,
             'accountForm'                  => $accountForm,
-            'accountDeleteForm'            => $accountDeleteForm,
             'accountTwoFactorForm'         => $accountTwoFactorForm,
             'accountTwoFactorDisableForm'  => $accountTwoFactorDisableForm,
             'accountTwoFactorGenerateForm' => $accountTwoFactorGenerateForm,
-            'activity'                     => $this->userService->getActivity($user),
 
             'twoFactorAuth' => [
                 'qrCode' => $qrCode,

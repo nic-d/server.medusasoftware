@@ -1,4 +1,4 @@
-{% extends layout().template %}
+{% extends 'layout/app.twig' %}
 
 {% set meta = {
     title: 'Account Settings',
@@ -6,13 +6,7 @@
 } %}
 
 {% block body %}
-    <div class="bg-dark py-30">
-        <div class="content content-full text-center">
-            <h1 class="h3 text-white font-w700 mb-10">{{ translate('Account Settings') }}</h1>
-        </div>
-    </div>
-
-    <div class="content content-boxed" id="boxed-container">
+    <div class="content">
         <div class="row justify-content-center">
             <div class="col-6">
                 <div class="block block-bordered block-rounded">
