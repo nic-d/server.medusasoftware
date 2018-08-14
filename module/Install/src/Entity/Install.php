@@ -42,13 +42,13 @@ class Install
 
     /**
      * @ORM\ManyToOne(targetEntity="Product\Entity\Product")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="License\Entity\License")
-     * @ORM\JoinColumn(name="license_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="license_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $license;
 
