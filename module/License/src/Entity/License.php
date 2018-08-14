@@ -48,12 +48,12 @@ class License
     private $validForEnvatoUsername;
 
     /**
-     * @ORM\Column(name="licensed_ip", type="string", length=250, nullable=true)
+     * @ORM\Column(name="licensed_ip", type="text", nullable=true)
      */
     private $licensedIp;
 
     /**
-     * @ORM\Column(name="licensed_domain", type="string", length=250, nullable=true)
+     * @ORM\Column(name="licensed_domain", type="text", nullable=true)
      */
     private $licensedDomain;
 

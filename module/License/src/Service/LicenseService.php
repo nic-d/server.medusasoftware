@@ -187,14 +187,17 @@ class LicenseService
 
         // Verify the IP if it's restricted by IP
         if (!empty($ip) && (!is_null($license->getLicensedIp()) || empty($license->getLicensedIp()))) {
-            if ($ip !== $license->getLicensedIp()) {
+            $licensedIps = explode(',', $license->getLicensedIp());
+            if (!in_array($ip, $licensedIps)) {
                 return false;
             }
         }
 
         // Verify domain IP if it's restricted by domain
         if (!empty($domain) && (!is_null($license->getLicensedDomain()) || empty($license->getLicensedDomain()))) {
-            if ($domain !== $license->getLicensedDomain()) {
+            $domains = explode(',', $license->getLicensedDomain());
+
+            if (!in_array($domain, $domains)) {
                 return false;
             }
         }

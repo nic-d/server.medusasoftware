@@ -64,13 +64,14 @@ class LicenseAddForm extends Form
             'name' => 'licensedIp',
 
             'options' => [
-                'label' => 'Licensed IP',
+                'label' => 'Licensed IP(s)',
             ],
 
             'attributes' => [
                 'id' => 'licensedIp',
                 'class' => 'form-control form-control-lg',
                 'autocomplete' => 'off',
+                'placeholder' => 'Comma separated for multiple values.',
             ],
         ]);
 
@@ -79,13 +80,14 @@ class LicenseAddForm extends Form
             'name' => 'licensedDomain',
 
             'options' => [
-                'label' => 'Licensed Domain',
+                'label' => 'Licensed Domain(s)',
             ],
 
             'attributes' => [
                 'id' => 'licensedDomain',
                 'class' => 'form-control form-control-lg',
                 'autocomplete' => 'off',
+                'placeholder' => 'Comma separated for multiple values.',
             ],
         ]);
 
