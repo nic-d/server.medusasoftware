@@ -55,8 +55,8 @@
     </div>
 
     {# VERIFY LICENSE MODAL #}
-    <div class="modal" id="license-modal">
-        <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="license-modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-popout">
             <div class="modal-content">
                 {{ form().prepare() }}
                 {{ form().openTag(form) | raw }}
@@ -69,7 +69,7 @@
 
                     <div class="modal-body pb-1">
                         {# VALID LICENSE ALERT #}
-                        <div class="alert alert-success" id="alert-success" style="display: none;">
+                        <div class="alert alert-success animated bounceIn" id="alert-success" style="display: none;">
                             <p class="mb-0">
                                 <i class="fas fa-fw fa-check"></i>
                                 Success! This license code is <strong>valid</strong>!
@@ -77,7 +77,7 @@
                         </div>
 
                         {# INVALID LICENSE ALERT #}
-                        <div class="alert alert-danger" id="alert-danger" style="display: none;">
+                        <div class="alert alert-danger animated bounceIn" id="alert-danger" style="display: none;">
                             <p class="mb-0">
                                 <i class="fas fa-fw fa-exclamation-circle"></i>
                                 Error! This license code is <strong>invalid</strong>!
