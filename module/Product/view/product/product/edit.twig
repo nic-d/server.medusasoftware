@@ -12,19 +12,21 @@
 
 {% block body %}
     <div class="content">
+        <h2 class="content-heading">
+            <button type="button" class="btn btn-hero-danger btn-hero-sm float-right" data-target="#delete-modal" data-toggle="modal">
+                <i class="fas fa-trash-alt"></i>
+                Delete
+            </button>
+
+            <a href="{{ url('product.index') }}" class="btn btn-hero-secondary btn-hero-sm float-right mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+                All Products
+            </a>
+
+            Edit Product: {{ product.name }}
+        </h2>
+
         <div class="block block-rounded">
-            <div class="block-header">
-                <h3 class="block-title">Edit: <span class="font-w300">{{ product.name }}</span></h3>
-
-                <div class="block-options">
-                    {{ form().prepare() }}
-                    {{ form().openTag(deleteForm) | raw }}
-                        {{ formRow(deleteForm.get('delete_csrf')) }}
-                        {{ formRow(deleteForm.get('submit')) }}
-                    {{ form().closeTag(deleteForm) | raw }}
-                </div>
-            </div>
-
             <div class="block-content">
                 {{ form().prepare() }}
                 {{ form().openTag(form) | raw }}
@@ -46,6 +48,26 @@
                         {{ formRow(form.get('submit')) }}
                     </div>
                 {{ form().closeTag(form) | raw }}
+            </div>
+        </div>
+    </div>
+
+    {# DELETE PRODUCT MODAL #}
+    <div class="modal fade" id="delete-modal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-popout">
+            <div class="modal-content">
+                {{ form().prepare() }}
+                {{ form().openTag(deleteForm) | raw }}
+                {{ formRow(deleteForm.get('delete_csrf')) }}
+
+                <div class="modal-body py-5 text-center">
+                    <h3>
+                        You're about to delete this product, <br>
+                        are you sure?
+                    </h3>
+                    {{ formRow(deleteForm.get('submit')) }}
+                </div>
+                {{ form().closeTag(deleteForm) | raw }}
             </div>
         </div>
     </div>

@@ -12,6 +12,15 @@
 
 {% block body %}
     <div class="content">
+        <h2 class="content-heading">
+            <a href="{{ url('product.index') }}" class="btn btn-hero-secondary btn-hero-sm float-right">
+                <i class="fas fa-arrow-circle-left"></i>
+                All Products
+            </a>
+
+            Add Product
+        </h2>
+
         <div class="block block-rounded">
             <div class="block-content">
                 {{ form().prepare() }}

@@ -44,8 +44,8 @@ class ProductDeleteForm extends Form
             'name' => 'submit',
 
             'attributes' => [
-                'value' => 'Delete',
-                'class' => 'btn btn-sm btn-danger',
+                'value' => 'Yes, Delete!',
+                'class' => 'btn btn-hero-danger',
             ],
         ]);
     }
