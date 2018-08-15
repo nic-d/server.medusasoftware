@@ -120,7 +120,7 @@ abstract class AbstractService
         $installUrl = $this->getParsedNotifyUrls()['license'];
 
         $postParams = [
-            'licenseCode' => $params['license'],
+            'licenseCode' => $params['LICENSE'],
             'ip' => $_SERVER['SERVER_ADDR'],
             'domain' => $_SERVER['HTTP_HOST'],
         ];
@@ -167,7 +167,7 @@ abstract class AbstractService
             'fullUrl'   => $fullUrl,
             'serverName' => $_SERVER['SERVER_NAME'],
             'phpVersion' => phpversion(),
-            'license' => $params['license'],
+            'license' => $params['LICENSE'],
             'product' => $this->getParsedProductId(),
         ];
 

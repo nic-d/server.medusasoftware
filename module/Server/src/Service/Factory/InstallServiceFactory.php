@@ -23,9 +23,11 @@ class InstallServiceFactory implements FactoryInterface
      * @param string $requestedName
      * @param array|null $options
      * @return object|InstallService
+     * @throws \Exception
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new InstallService();
+        $formManager = $container->get('FormElementManager');
+        return new InstallService($formManager);
     }
 }

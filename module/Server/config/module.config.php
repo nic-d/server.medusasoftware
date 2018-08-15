@@ -23,9 +23,17 @@ return [
                         'action'     => 'index',
                     ],
                 ],
+            ],
 
-                'may_terminate' => true,
-                'child_routes'  => [],
+            'server.update' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/server/update',
+                    'defaults' => [
+                        'controller' => Controller\UpdateController::class,
+                        'action'     => 'index',
+                    ],
+                ],
             ],
         ],
     ],
@@ -34,8 +42,6 @@ return [
         'factories' => [
             Controller\UpdateController::class => Controller\Factory\UpdateControllerFactory::class,
             Controller\InstallController::class => Controller\Factory\InstallControllerFactory::class,
-            Controller\UpdateConsoleController::class => Controller\Factory\UpdateConsoleControllerFactory::class,
-            Controller\InstallConsoleController::class => Controller\Factory\InstallConsoleControllerFactory::class,
         ],
     ],
 
@@ -62,6 +68,12 @@ return [
             Service\UpdateService::class => Service\Factory\UpdateServiceFactory::class,
             Service\InstallService::class => Service\Factory\InstallServiceFactory::class,
             Service\AbstractService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+        ],
+    ],
+
+    'form_elements' => [
+        'factories' => [
+            Form\InstallForm::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],
 

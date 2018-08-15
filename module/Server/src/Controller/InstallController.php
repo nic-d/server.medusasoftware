@@ -32,17 +32,32 @@ class InstallController extends AbstractActionController
         $this->installService = $installService;
     }
 
+    /**
+     * @return Response|ViewModel
+     */
     public function indexAction()
     {
-        // TODO: Change this to use the form data!
-        $this->installService->run([
-            'DB_VM_HOST' => '10.0.2.2',
-            'DB_USERNAME' => 'root',
-            'DB_PASSWORD' => 'mysql',
-            'DB_NAME' => 'installer_test',
-            'DB_PORT' => '3306',
-            'license' => 'b1a13c6b-a604-4c1e-ae3d-bab9e4ccf7d2',
+        /** @var Request $request */
+        $request = $this->getRequest();
+
+        // Prepare the install form
+        $form = $this->installService->prepareInstallForm();
+
+        if ($request->isPost()) {
+            $form->setData($this->params()->fromPost());
+
+            if ($form->isValid()) {
+                try {
+                    $this->installService->processForm($form);
+                } catch (\Exception $e) {
+                    $this->flashMessenger()->addErrorMessage($e->getMessage());
+                    return $this->redirect()->toRoute('server.install');
+                }
+            }
+        }
+
+        return new ViewModel([
+            'form' => $form,
         ]);
-        // TODO: Get the requirements
     }
 }

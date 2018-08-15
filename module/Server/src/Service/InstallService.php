@@ -8,6 +8,9 @@
 
 namespace Server\Service;
 
+use Server\Form\InstallForm;
+use Zend\Form\FormElementManager\FormElementManagerV3Polyfill as FormElementManager;
+
 /**
  * Class InstallService
  * @package Server\Service
@@ -19,6 +22,38 @@ class InstallService extends AbstractService
 
     /** @var array $config */
     private $config = [];
+
+    /** @var FormElementManager $formElementManager */
+    private $formElementManager;
+
+    /**
+     * InstallService constructor.
+     * @param FormElementManager $formElementManager
+     * @throws \Exception
+     */
+    public function __construct(FormElementManager $formElementManager)
+    {
+        $this->formElementManager = $formElementManager;
+        parent::__construct();
+    }
+
+    /**
+     * @param InstallForm $installForm
+     * @throws \Exception
+     */
+    public function processForm(InstallForm $installForm)
+    {
+        $config = [
+            'DB_VM_HOST'  => $installForm->get('host')->getValue(),
+            'DB_USERNAME' => $installForm->get('user')->getValue(),
+            'DB_PASSWORD' => $installForm->get('password')->getValue(),
+            'DB_NAME'     => $installForm->get('name')->getValue(),
+            'DB_PORT'     => $installForm->get('port')->getValue(),
+            'LICENSE'     => $installForm->get('license')->getValue(),
+        ];
+
+        $this->run($config);
+    }
 
     /**
      * @param array $config
@@ -86,7 +121,7 @@ class InstallService extends AbstractService
     private function testDatabaseConnection(array $dbConfig = [])
     {
         /** @var \mysqli $mysqli */
-        $mysqli = new \mysqli(
+        @$mysqli = new \mysqli(
             $dbConfig['DB_VM_HOST'],
             $dbConfig['DB_USERNAME'],
             $dbConfig['DB_PASSWORD'],
@@ -134,5 +169,13 @@ class InstallService extends AbstractService
         $this->notifyInstall($this->config);
 
         return true;
+    }
+
+    /**
+     * @return InstallForm
+     */
+    public function prepareInstallForm(): InstallForm
+    {
+        return $this->formElementManager->get(InstallForm::class);
     }
 }
