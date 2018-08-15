@@ -1,13 +1,13 @@
 {
-    "name": "MS.passvault",
+    "name": "MS.__APPNAME__",
     "product-id": "a1f2869d",
-    "description": "PassVault is a secure password manager.",
-    "current-version": "1.5.6",
+    "description": "__APPDESCRIPTION__",
+    "current-version": "x.x.x",
     "server-version": "1.0",
     "links": {
-        "homepage": "https://medusasoftware.io/products/passvault",
-        "documentation": "https://medusasoftware.io/products/passvault",
-        "changelog": "https://medusasoftware.io/products/passvault/changelog"
+        "homepage": "https://medusasoftware.io/products/__APPNAME__",
+        "documentation": "https://medusasoftware.io/products/__APPNAME__",
+        "changelog": "https://medusasoftware.io/products/__APPNAME__/changelog"
     },
     "notify-urls": {
         "install": "http://server.medusasoftware.development/api/install",
