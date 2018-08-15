@@ -20,6 +20,9 @@ abstract class AbstractService
     /** @var int|null $parsedVersion */
     private $parsedVersion;
 
+    /** @var string $parsedProductId */
+    private $parsedProductId;
+
     /** @var array $parsedNotifyUrls */
     private $parsedNotifyUrls = [];
 
@@ -57,7 +60,8 @@ abstract class AbstractService
         $this->parsedConfig = json_decode(file_get_contents(getcwd() . '/application.json'), true);
 
         // Set the individual keys
-        $this->parsedVersion = $this->parsedConfig['current-version'];
+        $this->parsedProductId = $this->parsedConfig['product-id'] ?? '';
+        $this->parsedVersion = $this->parsedConfig['current-version'] ?? 0;
         $this->parsedNotifyUrls = $this->parsedConfig['notify-urls'] ?? [];
         $this->parsedRequirements = $this->parsedConfig['requirements'] ?? [];
         $this->parsedPermissions = $this->parsedConfig['permissions'] ?? [];
@@ -163,6 +167,8 @@ abstract class AbstractService
             'fullUrl'   => $fullUrl,
             'serverName' => $_SERVER['SERVER_NAME'],
             'phpVersion' => phpversion(),
+            'license' => $params['license'],
+            'product' => $this->getParsedProductId(),
         ];
 
         curl_setopt_array($ch, [
@@ -307,6 +313,24 @@ abstract class AbstractService
     protected function setParsedSchemaFiles(array $parsedSchemaFiles)
     {
         $this->parsedSchemaFiles = $parsedSchemaFiles;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getParsedProductId(): string
+    {
+        return $this->parsedProductId;
+    }
+
+    /**
+     * @param string $parsedProductId
+     * @return $this
+     */
+    protected function setParsedProductId(string $parsedProductId)
+    {
+        $this->parsedProductId = $parsedProductId;
         return $this;
     }
 }

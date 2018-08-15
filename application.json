@@ -1,5 +1,6 @@
 {
     "name": "MS.passvault",
+    "product-id": "a1f2869d",
     "description": "PassVault is a secure password manager.",
     "current-version": "1.5.6",
     "server-version": "1.0",
@@ -9,7 +10,7 @@
         "changelog": "https://medusasoftware.io/products/passvault/changelog"
     },
     "notify-urls": {
-        "install": "https://server.medusasoftware.io/api/install",
+        "install": "http://server.medusasoftware.development/api/install",
         "license": "http://server.medusasoftware.development/api/license"
     },
     "requirements": {

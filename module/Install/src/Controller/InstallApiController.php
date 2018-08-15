@@ -8,6 +8,7 @@
 
 namespace Install\Controller;
 
+use Zend\View\Model\JsonModel;
 use Install\Service\InstallService;
 use Install\Filter\InstallInputFilter;
 use Zend\Mvc\Controller\AbstractRestfulController;
@@ -44,17 +45,30 @@ class InstallApiController extends AbstractRestfulController
      */
     public function create($data)
     {
+        /** @var JsonModel $json */
+        $json = new JsonModel();
+
         // Validate the $data array
         $this->installInputFilter->setData($data);
 
         if (!$this->installInputFilter->isValid()) {
-            return $this->response->setStatusCode(400);
+            $this->response->setStatusCode(400);
+            return $json->setVariables([
+                'error' => $this->installInputFilter->getMessages(),
+            ]);
         }
 
         try {
             $this->installService->saveInstall($data);
         } catch (\Exception $e) {
-            return $this->response->setStatusCode(400);
+            $this->response->setStatusCode(400);
+            return $json->setVariables([
+                'error' => [
+                    'licenseCode' => [
+                        'message' => 'License code is invalid',
+                    ],
+                ],
+            ]);
         }
 
         return $this->response->setStatusCode(200);
