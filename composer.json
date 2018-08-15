@@ -60,6 +60,7 @@
             "Install\\": "module/Install/src/",
             "License\\": "module/License/src/",
             "Product\\": "module/Product/src/",
+            "Server\\": "module/Server/src/",
             "User\\": "module/User/src/"
         }
     },

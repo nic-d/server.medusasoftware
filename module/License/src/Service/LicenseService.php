@@ -196,7 +196,7 @@ class LicenseService
         }
 
         // Verify the IP if it's restricted by IP
-        if (!empty($ip) && (!is_null($license->getLicensedIp()) || empty($license->getLicensedIp()))) {
+        if (!empty($ip) && (!is_null($license->getLicensedIp()) && !empty($license->getLicensedIp()))) {
             $licensedIps = explode(',', $license->getLicensedIp());
             if (!in_array($ip, $licensedIps)) {
                 return false;
@@ -204,7 +204,7 @@ class LicenseService
         }
 
         // Verify domain IP if it's restricted by domain
-        if (!empty($domain) && (!is_null($license->getLicensedDomain()) || empty($license->getLicensedDomain()))) {
+        if (!empty($domain) && (!is_null($license->getLicensedDomain()) && !empty($license->getLicensedDomain()))) {
             $domains = explode(',', $license->getLicensedDomain());
 
             if (!in_array($domain, $domains)) {

@@ -1,0 +1,32 @@
+{
+    "name": "MS.passvault",
+    "description": "PassVault is a secure password manager.",
+    "current-version": "1.5.6",
+    "server-version": "1.0",
+    "links": {
+        "homepage": "https://medusasoftware.io/products/passvault",
+        "documentation": "https://medusasoftware.io/products/passvault",
+        "changelog": "https://medusasoftware.io/products/passvault/changelog"
+    },
+    "notify-urls": {
+        "install": "https://server.medusasoftware.io/api/install",
+        "license": "http://server.medusasoftware.development/api/license"
+    },
+    "requirements": {
+        "php": "7.0",
+        "php-extensions": [
+            "iconv"
+        ]
+    },
+    "schema-files": [
+        "app.sql"
+    ],
+    "permissions": {
+        "filesystem": {
+            "config/": 777,
+            "data/": 777,
+            "module/": 777,
+            "public/": 777
+        }
+    }
+}

@@ -33,4 +33,8 @@ return [
     'License',
     'Product',
     'User',
+
+
+    # INSTALL & UPDATER
+    'Server',
 ];
