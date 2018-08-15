@@ -1,0 +1,80 @@
+{# THIS IS ONLY EVER RENDERED INTO A MODAL #}
+<dl class="row">
+    <dt class="col-sm-3"><strong>License Key:</strong></dt>
+    <dd class="col-sm-9">
+        {{ license.licenseCode }}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Valid for Envato User:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.validForEnvatoUsername %}
+            {{ license.validForEnvatoUsername }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Licensed IP:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.licensedIp %}
+            {{ license.licensedIp }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Licensed Domain:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.licensedDomain %}
+            {{ license.licensedDomain }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Install Limit:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.installLimit %}
+            {{ license.installLimit }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>License Expiration Date:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.licenseExpirationDate %}
+            {{ license.licenseExpirationDate.date | date }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Is Blocked:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.isBlocked %}
+            <span class="badge badge-danger">Yes</span>
+        {% else %}
+            <span class="badge badge-success">No</span>
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Note:</strong></dt>
+    <dd class="col-sm-9">
+        {% if license.note %}
+            {{ license.note }}
+        {% else %}
+            ~
+        {% endif %}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Last Updated:</strong></dt>
+    <dd class="col-sm-9">{{ license.lastUpdate.date | date }}</dd>
+
+    <dt class="col-sm-3"><strong>Date Created:</strong></dt>
+    <dd class="col-sm-9">{{ license.timestamp.date | date }}</dd>
+
+    <dt class="col-sm-3">
+        <a href="{{ url('license.index/edit', {code: license.licenseCode}) }}" class="btn btn-sm btn-secondary">Edit</a>
+    </dt>
+</dl>

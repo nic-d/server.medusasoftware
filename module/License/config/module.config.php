@@ -49,6 +49,19 @@ return [
                         ],
                     ],
 
+                    'view' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route'    => '/[:code]/view',
+                            'constraints' => [
+                                'code' => '[a-zA-Z0-9_-]*',
+                            ],
+                            'defaults' => [
+                                'action' => 'view',
+                            ],
+                        ],
+                    ],
+
                     'edit' => [
                         'type' => Segment::class,
                         'options' => [
@@ -101,7 +114,7 @@ return [
             Controller\LicenseController::class => [
                 [
                     'roles'   => ['User'],
-                    'actions' => ['index', 'verify', 'add', 'edit', 'delete'],
+                    'actions' => ['index', 'verify', 'add', 'view', 'edit', 'delete'],
                 ],
             ],
         ],

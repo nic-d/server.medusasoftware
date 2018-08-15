@@ -39,6 +39,19 @@ return [
                         ],
                     ],
 
+                    'view' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route'    => '/[:hash]/view',
+                            'constraints' => [
+                                'hash' => '[a-zA-Z0-9]*',
+                            ],
+                            'defaults' => [
+                                'action' => 'view',
+                            ],
+                        ],
+                    ],
+
                     'edit' => [
                         'type' => Segment::class,
                         'options' => [
@@ -80,7 +93,7 @@ return [
             Controller\ProductController::class => [
                 [
                     'roles'   => ['User'],
-                    'actions' => ['index', 'add', 'edit', 'delete'],
+                    'actions' => ['index', 'add', 'view', 'edit', 'delete'],
                 ],
             ],
         ],

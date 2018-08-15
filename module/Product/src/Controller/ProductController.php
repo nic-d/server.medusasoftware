@@ -68,6 +68,29 @@ class ProductController extends AbstractActionController
 
     /**
      * @return ViewModel
+     */
+    public function viewAction()
+    {
+        /** @var string|null $hash */
+        $hash = $this->params()->fromRoute('hash');
+
+        if (is_null($hash)) {
+            return $this->notFoundAction();
+        }
+
+        try {
+            $product = $this->productService->getProduct($hash, 'hash');
+        } catch (\Exception $e) {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel([
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     * @return ViewModel
      * @throws \ErrorException
      */
     public function editAction()

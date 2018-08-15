@@ -102,6 +102,29 @@ class LicenseController extends AbstractActionController
     }
 
     /**
+     * @return ViewModel
+     */
+    public function viewAction()
+    {
+        /** @var string|null $code */
+        $code = $this->params()->fromRoute('code');
+
+        if (is_null($code)) {
+            return $this->notFoundAction();
+        }
+
+        try {
+            $license = $this->licenseService->getLicense($code, 'code');
+        } catch (\Exception $e) {
+            return $this->notFoundAction();
+        }
+
+        return new ViewModel([
+            'license' => $license,
+        ]);
+    }
+
+    /**
      * @return Response|ViewModel
      */
     public function editAction()

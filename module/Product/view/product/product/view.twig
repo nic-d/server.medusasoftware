@@ -1,0 +1,30 @@
+{# THIS IS ONLY EVER RENDERED INTO A MODAL #}
+<dl class="row">
+    <dt class="col-sm-3"><strong>Name:</strong></dt>
+    <dd class="col-sm-9">
+        {{ product.name }}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Created By:</strong></dt>
+    <dd class="col-sm-9">{{ product.createdByUser.username }}</dd>
+
+    <dt class="col-sm-3"><strong>description:</strong></dt>
+    <dd class="col-sm-9">
+        {{ product.description }}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Envato Product ID:</strong></dt>
+    <dd class="col-sm-9">
+        {{ product.envatoProductId }}
+    </dd>
+
+    <dt class="col-sm-3"><strong>Last Updated:</strong></dt>
+    <dd class="col-sm-9">{{ product.lastUpdate.date | date }}</dd>
+
+    <dt class="col-sm-3"><strong>Date Created:</strong></dt>
+    <dd class="col-sm-9">{{ product.timestamp.date | date }}</dd>
+
+    <dt class="col-sm-3">
+        <a href="{{ url('product.index/edit', {hash: product.hash}) }}" class="btn btn-sm btn-secondary">Edit</a>
+    </dt>
+</dl>

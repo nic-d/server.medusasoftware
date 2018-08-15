@@ -30,12 +30,12 @@
                                 <tr data-hash="{{ item.hash }}">
                                     <td>{{ item.id }}</td>
                                     <td>
-                                        <a href="{{ url('license.index/edit', {code: item.license.licenseCode}) }}">
+                                        <a href="javascript:void(0);" class="license-modal" data-license-hash="{{ item.license.licenseCode }}">
                                             {{ item.license.licenseCode }}
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ url('product.index/edit', {hash: item.product.hash}) }}">
+                                        <a href="javascript:void(0);" class="product-modal" data-product-hash="{{ item.product.hash }}">
                                             {{ item.product.name }}
                                         </a>
                                     </td>
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    {# VERIFY LICENSE MODAL #}
+    {# VIEW INSTALL MODAL #}
     <div class="modal fade" id="view-modal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-popout">
             <div class="modal-content">
@@ -77,12 +77,57 @@
             </div>
         </div>
     </div>
+
+    {# PRODUCT MODAL #}
+    <div class="modal fade" id="product-view-modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-popout">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Product</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body pb-1" id="product-modal-body">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# LICENSE MODAL #}
+    <div class="modal fade" id="license-view-modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-popout">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View License</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body pb-1" id="license-modal-body">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
     <script type="text/javascript">
         let modal = $('#view-modal');
+        let productModal = $('#product-view-modal');
+        let licenseModal = $('#license-view-modal');
 
+        // Installation modal
         $('body').on('click', '.launch-modal', function (e) {
             e.preventDefault();
             let hash = $(this).closest('tr').data('hash');
@@ -99,6 +144,48 @@
                 error: function (response) {
                     modal.modal('hide');
                     modal.find('#modal-body').html('');
+                }
+            });
+        });
+
+        // Product modal
+        $('body').on('click', '.product-modal', function (e) {
+            e.preventDefault();
+            let hash = $(this).closest('a').data('product-hash');
+
+            jQuery.ajax({
+                method: 'get',
+                url: '/products/' + hash + '/view',
+
+                success: function (response) {
+                    productModal.modal('show');
+                    productModal.find('#product-modal-body').html(response);
+                },
+
+                error: function (response) {
+                    productModal.modal('hide');
+                    productModal.find('#product-modal-body').html('');
+                }
+            });
+        });
+
+        // License modal
+        $('body').on('click', '.license-modal', function (e) {
+            e.preventDefault();
+            let hash = $(this).closest('a').data('license-hash');
+
+            jQuery.ajax({
+                method: 'get',
+                url: '/licenses/' + hash + '/view',
+
+                success: function (response) {
+                    licenseModal.modal('show');
+                    licenseModal.find('#license-modal-body').html(response);
+                },
+
+                error: function (response) {
+                    licenseModal.modal('hide');
+                    licenseModal.find('#license-modal-body').html('');
                 }
             });
         });
