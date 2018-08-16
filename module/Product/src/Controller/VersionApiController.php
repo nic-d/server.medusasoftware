@@ -95,9 +95,6 @@ class VersionApiController extends AbstractActionController
         $headers = new Headers();
         $fileLocation = getcwd() . '/public/upload/' . $latestVersion->getPackagedApp();
 
-        var_dump(filesize($fileLocation));
-        exit;
-
         $headers
             ->addHeaderLine('Content-Type', 'application/octet-stream')
             ->addHeaderLine('Content-Length', filesize($fileLocation))
