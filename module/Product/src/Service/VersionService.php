@@ -8,6 +8,7 @@
 
 namespace Product\Service;
 
+use Product\Entity\Product;
 use Product\Entity\Version;
 use Product\Form\VersionAddForm;
 use League\Flysystem\Filesystem;
@@ -47,6 +48,25 @@ class VersionService
         $this->entityManager = $entityManager;
         $this->formElementManager = $formElementManager;
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * @param Product $product
+     * @return Version
+     * @throws \Exception
+     */
+    public function getLatestVersion(Product $product): Version
+    {
+        /** @var Version $version */
+        $version = $this->entityManager
+            ->getRepository(Version::class)
+            ->findBy(['product' => $product], ['timestamp' => 'ASC'], 1);
+
+        if (empty($version)) {
+            throw new \Exception('no versions found');
+        }
+
+        return $version[0];
     }
 
     /**

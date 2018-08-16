@@ -9,6 +9,7 @@
 use Product\Form;
 use Product\Service;
 use Product\Controller;
+use Zend\Router\Http\Method;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -129,6 +130,34 @@ return [
                     ],
                 ],
             ],
+
+            'version.api' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/api/version/[:hash]/isuptodate',
+                    'constraints' => [
+                        'hash' => '[a-zA-Z0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\VersionApiController::class,
+                        'action' => 'isUpToDate',
+                    ],
+                ],
+            ],
+
+            'version.api.download' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/api/version/[:hash]/download',
+                    'constraints' => [
+                        'hash' => '[a-zA-Z0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\VersionApiController::class,
+                        'action' => 'download',
+                    ],
+                ],
+            ],
         ],
     ],
 
@@ -136,6 +165,7 @@ return [
         'factories' => [
             Controller\ProductController::class => Controller\Factory\ProductControllerFactory::class,
             Controller\VersionController::class => Controller\Factory\VersionControllerFactory::class,
+            Controller\VersionApiController::class => Controller\Factory\VersionApiControllerFactory::class,
         ],
     ],
 
@@ -154,6 +184,13 @@ return [
                     'actions' => ['index', 'add', 'edit', 'delete'],
                 ],
             ],
+
+            Controller\VersionApiController::class => [
+                [
+                    'roles'   => ['Guest'],
+                    'actions' => ['isUpToDate', 'download'],
+                ],
+            ],
         ],
     ],
 
@@ -161,6 +198,7 @@ return [
         'factories' => [
             Service\ProductService::class => Service\Factory\ProductServiceFactory::class,
             Service\VersionService::class => Service\Factory\VersionServiceFactory::class,
+            Service\VersionApiService::class => Service\Factory\VersionApiServiceFactory::class,
         ],
     ],
 

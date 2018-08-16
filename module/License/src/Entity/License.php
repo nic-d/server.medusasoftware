@@ -40,6 +40,12 @@ class License
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Product\Entity\Product")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private $product;
+
+    /**
      * @ORM\OneToMany(targetEntity="Install\Entity\Install", mappedBy="license")
      */
     private $installs;
@@ -319,6 +325,24 @@ class License
     public function setInstalls($installs)
     {
         $this->installs = $installs;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param mixed $product
+     * @return $this
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
         return $this;
     }
 }

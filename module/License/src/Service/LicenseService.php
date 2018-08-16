@@ -16,6 +16,7 @@ use License\Form\LicenseDeleteForm;
 use License\Form\LicenseVerifyForm;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use Product\Entity\Product;
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill as FormElementManager;
 
 /**
@@ -154,7 +155,7 @@ class LicenseService
      * @return bool
      * @throws \ErrorException
      */
-    public function verifyLicenseCode(string $code, string $ip = '', string $domain = ''): bool
+    public function verifyLicenseCode(string $code, string $ip = '', string $domain = '', bool $skipConstraints = false): bool
     {
         // First check if it exists in the DB
         $license = $this->entityManager
@@ -164,9 +165,11 @@ class LicenseService
             ]);
 
         // The license exists in our database
-        if (!is_null($license)) {
+        if (!is_null($license) && !$skipConstraints) {
             // Verify the constraints
             return $this->verifyLicenseConstraints($license, $ip, $domain);
+        } elseif (!is_null($license) && $skipConstraints) {
+            return true;
         }
 
         // Authenticate with our clientSecret key and verify the license code with envato
@@ -178,7 +181,7 @@ class LicenseService
         }
 
         // The license code exists with Envato, so save it in our DB
-        $this->saveEnvatoLicenseCode($code, $result, $ip, $domain);
+        $this->saveEnvatoLicenseCode($code, $result, $ip, '', $result['item']['name']);
         return true;
     }
 
@@ -230,13 +233,15 @@ class LicenseService
      * @param array $licenseData
      * @param string $ip
      * @param string $domain
+     * @param string $productName
      * @return License
      */
     private function saveEnvatoLicenseCode(
         string $licenseCode,
         array $licenseData,
         string $ip = '',
-        string $domain = ''
+        string $domain = '',
+        string $productName = ''
     ): License
     {
         /** @var License $license */
@@ -250,6 +255,20 @@ class LicenseService
 
         if (!empty($domain)) {
             $license->setLicensedDomain($domain);
+        }
+
+        // If there's a product name, let's check if we have it in the DB
+        if (!empty($productName)) {
+            $product = $this->entityManager
+                ->getRepository(Product::class)
+                ->findOneBy([
+                    'name' => $productName,
+                ]);
+
+            // Not null, so the product exists
+            if (!is_null($product)) {
+                $license->setProduct($product);
+            }
         }
 
         $this->entityManager->persist($license);

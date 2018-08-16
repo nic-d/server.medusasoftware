@@ -10,6 +10,7 @@ namespace Product\Controller;
 
 use Zend\Http\Request;
 use Zend\Http\Response;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Product\Service\VersionService;
 use Zend\Mvc\Controller\AbstractActionController;
