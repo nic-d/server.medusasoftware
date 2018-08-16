@@ -1,0 +1,25 @@
+{
+  "name": "MS.__APPNAME__",
+  "product-id": "__PRODUCTID__",
+  "app-version": "x.x.x",
+  "installer-version": "1.0",
+  "updater-version": "1.0",
+  "links": {
+    "homepage": "https://medusasoftware.io/products/__APPNAME__",
+    "documentation": "https://medusasoftware.io/products/__APPNAME__",
+    "changelog": "https://medusasoftware.io/products/__APPNAME__/changelog"
+  },
+  "notify-urls": {
+    "install": "http://server.medusasoftware.development/api/install",
+    "license": "http://server.medusasoftware.development/api/license"
+  },
+  "requirements": {
+    "php": "7.0",
+    "php-extensions": [
+      "iconv"
+    ]
+  },
+  "schema-files": [
+    "app.sql"
+  ]
+}
