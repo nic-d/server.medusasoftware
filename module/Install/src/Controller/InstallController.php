@@ -8,6 +8,7 @@
 
 namespace Install\Controller;
 
+use Zend\Http\Response;
 use Zend\View\Model\ViewModel;
 use Install\Service\InstallService;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -48,7 +49,7 @@ class InstallController extends AbstractActionController
     }
 
     /**
-     * @return ViewModel
+     * @return Response|ViewModel
      */
     public function viewAction()
     {
@@ -65,7 +66,21 @@ class InstallController extends AbstractActionController
             return $this->notFoundAction();
         }
 
+        // Prepare the edit form - to allow us to nullify the license
+        $form = $this->installService->prepareEditForm($installation);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+
+            if ($form->isValid()) {
+                $this->installService->editInstall($form);
+            }
+
+            return $this->redirect()->toRoute('install.index');
+        }
+
         return new ViewModel([
+            'form' => $form,
             'installation' => $installation,
         ]);
     }

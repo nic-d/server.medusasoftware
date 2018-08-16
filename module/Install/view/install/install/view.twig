@@ -8,9 +8,19 @@
 
     <dt class="col-sm-3"><strong>License:</strong></dt>
     <dd class="col-sm-9">
-        <a href="{{ url('license.index/edit', {code: installation.license.licenseCode}) }}">
-            {{ installation.license.licenseCode }}
-        </a>
+        {% if installation.license %}
+            <a href="{{ url('license.index/edit', {code: installation.license.licenseCode}) }}">
+                {{ installation.license.licenseCode }}
+            </a>
+
+            {{ form().prepare() }}
+            {{ form().openTag(form) | raw }}
+                {{ formRow(form.get('edit_csrf')) }}
+                {{ formRow(form.get('submit')) }}
+            {{ form().closeTag(form) | raw }}
+        {% else %}
+            <span class="badge badge-secondary">nulled</span>
+        {% endif %}
     </dd>
 
     <dt class="col-sm-3"><strong>IP Address:</strong></dt>

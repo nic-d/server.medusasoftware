@@ -9,6 +9,7 @@
 namespace Install\Service;
 
 use Install\Entity\Install;
+use Install\Form\InstallEditForm;
 use License\Entity\License;
 use Product\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
@@ -151,5 +152,39 @@ class InstallService
         }
 
         return $product;
+    }
+
+    /**
+     * @param InstallEditForm $installEditForm
+     * @return bool
+     */
+    public function editInstall(InstallEditForm $installEditForm): bool
+    {
+        /** @var Install $install */
+        $install = $installEditForm->getObject();
+
+        // Nullify the license
+        $install->setLicense(null);
+
+        $this->entityManager->persist($install);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    /**
+     * @param Install $install
+     * @return InstallEditForm
+     */
+    public function prepareEditForm(Install $install): InstallEditForm
+    {
+        /** @var InstallEditForm $form */
+        $form = $this->formElementManager->get(InstallEditForm::class);
+        $form->setHydrator(new DoctrineObject($this->entityManager, true));
+        $form->bind($install);
+
+        $form->setAttribute('action', '/installs/' . $install->getHash() . '/view');
+
+        return $form;
     }
 }
