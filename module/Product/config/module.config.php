@@ -77,6 +77,56 @@ return [
                             ],
                         ],
                     ],
+
+                    'version' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/versions',
+                            'defaults' => [
+                                'controller' => Controller\VersionController::class,
+                                'action' => 'index',
+                            ],
+                        ],
+
+                        'may_terminate' => true,
+                        'child_routes'  => [
+                            'add' => [
+                                'type' => Literal::class,
+                                'options' => [
+                                    'route'    => '/add',
+                                    'defaults' => [
+                                        'action' => 'add',
+                                    ],
+                                ],
+                            ],
+
+                            'edit' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route'    => '/[:hash]/edit',
+                                    'constraints' => [
+                                        'hash' => '[a-zA-Z0-9]*',
+                                    ],
+                                    'defaults' => [
+                                        'action' => 'edit',
+                                    ],
+                                ],
+                            ],
+
+                            'delete' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route'    => '/[:hash]/delete',
+                                    'constraints' => [
+                                        'hash' => '[a-zA-Z0-9]*',
+                                    ],
+                                    'defaults' => [
+                                        'action' => 'delete',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],
@@ -85,6 +135,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\ProductController::class => Controller\Factory\ProductControllerFactory::class,
+            Controller\VersionController::class => Controller\Factory\VersionControllerFactory::class,
         ],
     ],
 
@@ -96,12 +147,20 @@ return [
                     'actions' => ['index', 'add', 'view', 'edit', 'delete'],
                 ],
             ],
+
+            Controller\VersionController::class => [
+                [
+                    'roles'   => ['User'],
+                    'actions' => ['index', 'add', 'edit', 'delete'],
+                ],
+            ],
         ],
     ],
 
     'service_manager' => [
         'factories' => [
             Service\ProductService::class => Service\Factory\ProductServiceFactory::class,
+            Service\VersionService::class => Service\Factory\VersionServiceFactory::class,
         ],
     ],
 
@@ -110,6 +169,9 @@ return [
             Form\ProductAddForm::class => InvokableFactory::class,
             Form\ProductEditForm::class => InvokableFactory::class,
             Form\ProductDeleteForm::class => InvokableFactory::class,
+            Form\VersionAddForm::class => Form\Factory\VersionAddFormFactory::class,
+            Form\VersionEditForm::class => InvokableFactory::class,
+            Form\VersionDeleteForm::class => InvokableFactory::class,
         ],
     ],
 

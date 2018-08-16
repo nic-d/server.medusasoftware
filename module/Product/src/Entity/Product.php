@@ -9,6 +9,7 @@
 namespace Product\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="Product\Repository\ProductRepository")
@@ -26,6 +27,7 @@ class Product
     public function __construct()
     {
         $this->hash = hash('crc32', random_bytes(8));
+        $this->versions = new ArrayCollection();
         $this->timestamp  = new \DateTime('now');
         $this->lastUpdate = new \DateTime('now');
     }
@@ -42,6 +44,11 @@ class Product
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $createdByUser;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Product\Entity\Version", mappedBy="product")
+     */
+    private $versions;
 
     /**
      * @ORM\Column(name="hash", type="string", length=8, unique=true)
@@ -226,6 +233,24 @@ class Product
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVersions()
+    {
+        return $this->versions;
+    }
+
+    /**
+     * @param mixed $versions
+     * @return $this
+     */
+    public function setVersions($versions)
+    {
+        $this->versions = $versions;
         return $this;
     }
 }
