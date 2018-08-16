@@ -10,6 +10,7 @@ namespace Product\Service;
 
 use Product\Entity\Product;
 use Product\Entity\Version;
+use League\Flysystem\Filesystem;
 use License\Service\LicenseService;
 use Product\Filter\DownloadInputFilter;
 
@@ -31,24 +32,30 @@ class VersionApiService
     /** @var DownloadInputFilter $downloadInputFilter */
     private $downloadInputFilter;
 
+    /** @var Filesystem $filesystem */
+    private $filesystem;
+
     /**
      * VersionApiService constructor.
      * @param ProductService $productService
      * @param VersionService $versionService
      * @param LicenseService $licenseService
      * @param DownloadInputFilter $downloadInputFilter
+     * @param Filesystem $filesystem
      */
     public function __construct(
         ProductService $productService,
         VersionService $versionService,
         LicenseService $licenseService,
-        DownloadInputFilter $downloadInputFilter
+        DownloadInputFilter $downloadInputFilter,
+        Filesystem $filesystem
     )
     {
         $this->productService = $productService;
         $this->versionService = $versionService;
         $this->downloadInputFilter = $downloadInputFilter;
         $this->licenseService = $licenseService;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -85,6 +92,22 @@ class VersionApiService
         if ($productVersion === 'latest') {
             return $this->versionService->getLatestVersion($product);
         }
+    }
+
+    /**
+     * @param string $path
+     * @return array
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    public function prepareFileForDownload(string $path): array
+    {
+        $stream = $this->filesystem->readStream($path);
+        $size   = $this->filesystem->getSize($path);
+
+        return [
+            'stream' => $stream,
+            'size'   => $size,
+        ];
     }
 
     # ---------------------------------------------------------------

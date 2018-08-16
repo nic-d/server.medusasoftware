@@ -54,7 +54,8 @@ class VersionApiController extends AbstractActionController
     }
 
     /**
-     * @return JsonModel
+     * @return Stream
+     * @throws \League\Flysystem\FileNotFoundException
      */
     public function downloadAction()
     {
@@ -93,14 +94,17 @@ class VersionApiController extends AbstractActionController
 
         /** @var Headers $headers */
         $headers = new Headers();
-        $fileLocation = getcwd() . '/public/upload/' . $latestVersion->getPackagedApp();
+        $fileLocation = $latestVersion->getPackagedApp();
+
+        // Fetch the stream and size
+        $fileData = $this->versionApiService->prepareFileForDownload($fileLocation);
 
         $headers
-            ->addHeaderLine('Content-Type', 'application/octet-stream')
-            ->addHeaderLine('Content-Length', filesize($fileLocation))
+            ->addHeaderLine('Content-Type', 'application/zip')
+            ->addHeaderLine('Content-Length', $fileData['size'])
             ->addHeaderLine('Content-Transfer-Encoding', 'Binary')
-            ->addHeaderLine('Content-Disposition', 'attachment; filename=' . $fileLocation)
-            ->addHeaderLine('Expires', '@0')
+            ->addHeaderLine('Content-Disposition', 'attachment; filename=' . $latestVersion->getPackagedApp())
+            ->addHeaderLine('Expires', '@0') // @0, because ZF parses date as string to \DateTime() object
             ->addHeaderLine('Cache-Control', 'must-revalidate')
             ->addHeaderLine('Pragma', 'public');
 
@@ -108,7 +112,7 @@ class VersionApiController extends AbstractActionController
         $response = new Stream();
 
         $response
-            ->setStream(filesize($fileLocation))
+            ->setStream($fileData['stream'])
             ->setStreamName($latestVersion->getPackagedApp())
             ->setHeaders($headers)
             ->setStatusCode(200);

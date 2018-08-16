@@ -14,6 +14,7 @@ use Product\Service\VersionService;
 use Product\Service\VersionApiService;
 use Product\Filter\DownloadInputFilter;
 use Interop\Container\ContainerInterface;
+use BsbFlysystem\Service\FilesystemManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
@@ -33,8 +34,9 @@ class VersionApiServiceFactory implements FactoryInterface
         $versionService = $container->get(VersionService::class);
         $productService = $container->get(ProductService::class);
         $licenseService = $container->get(LicenseService::class);
+        $filesystem = $container->get(FilesystemManager::class)->get('files');
         $downloadInputFilter = $container->get('InputFilterManager')->get(DownloadInputFilter::class);
 
-        return new VersionApiService($productService, $versionService, $licenseService, $downloadInputFilter);
+        return new VersionApiService($productService, $versionService, $licenseService, $downloadInputFilter, $filesystem);
     }
 }
