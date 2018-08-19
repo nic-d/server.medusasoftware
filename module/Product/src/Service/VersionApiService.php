@@ -81,7 +81,7 @@ class VersionApiService
     /**
      * @param string $productHash
      * @param string $productVersion
-     * @return Version
+     * @return Version|null
      * @throws \Exception
      */
     public function getVersion(string $productHash, string $productVersion): Version
@@ -92,6 +92,8 @@ class VersionApiService
         if ($productVersion === 'latest') {
             return $this->versionService->getLatestVersion($product);
         }
+
+        throw new \Exception('Version not found');
     }
 
     # ---------------------------------------------------------------
