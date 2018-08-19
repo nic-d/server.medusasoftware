@@ -9,7 +9,6 @@
 use Product\Form;
 use Product\Service;
 use Product\Controller;
-use Zend\Router\Http\Method;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;

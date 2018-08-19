@@ -31,7 +31,6 @@ class VersionServiceFactory implements FactoryInterface
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $filesystem = $container->get(FilesystemManager::class)->get('files');
 
-
         return new VersionService($entityManager, $formManager, $filesystem);
     }
 }
