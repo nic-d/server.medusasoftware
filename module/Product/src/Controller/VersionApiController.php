@@ -93,7 +93,7 @@ class VersionApiController extends AbstractActionController
         }
 
         return $jsonModel->setVariables([
-            'package-url' => $latestVersion->getPackagedAppUrl(),
+            'package_url' => $latestVersion->getPackagedAppUrl(),
         ]);
     }
 }
