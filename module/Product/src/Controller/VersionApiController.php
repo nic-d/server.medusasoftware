@@ -8,8 +8,6 @@
 
 namespace Product\Controller;
 
-use Zend\Http\Headers;
-use Zend\Http\Response\Stream;
 use Zend\View\Model\JsonModel;
 use Product\Service\VersionApiService;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -54,11 +52,13 @@ class VersionApiController extends AbstractActionController
     }
 
     /**
-     * @return Stream
-     * @throws \League\Flysystem\FileNotFoundException
+     * @return \Zend\View\Model\ViewModel
      */
     public function downloadAction()
     {
+        /** @var $jsonModel $jsonModel */
+        $jsonModel = new JsonModel();
+
         /** @var string|null $productHash */
         $productHash = $this->params()->fromRoute('hash');
         $version = $this->params()->fromPost('version');
@@ -92,31 +92,8 @@ class VersionApiController extends AbstractActionController
             return $this->getResponse()->setStatusCode(400);
         }
 
-        /** @var Headers $headers */
-        $headers = new Headers();
-        $fileLocation = $latestVersion->getPackagedApp();
-
-        // Fetch the stream and size
-        $fileData = $this->versionApiService->prepareFileForDownload($fileLocation);
-
-        $headers
-            ->addHeaderLine('Content-Type', 'application/zip')
-            ->addHeaderLine('Content-Length', $fileData['size'])
-            ->addHeaderLine('Content-Transfer-Encoding', 'Binary')
-            ->addHeaderLine('Content-Disposition', 'attachment; filename=' . $latestVersion->getPackagedApp())
-            ->addHeaderLine('Expires', '@0') // @0, because ZF parses date as string to \DateTime() object
-            ->addHeaderLine('Cache-Control', 'must-revalidate')
-            ->addHeaderLine('Pragma', 'public');
-
-        /** @var Stream $response */
-        $response = new Stream();
-
-        $response
-            ->setStream($fileData['stream'])
-            ->setStreamName($latestVersion->getPackagedApp())
-            ->setHeaders($headers)
-            ->setStatusCode(200);
-
-        return $response;
+        return $jsonModel->setVariables([
+            'package-url' => $latestVersion->getPackagedAppUrl(),
+        ]);
     }
 }

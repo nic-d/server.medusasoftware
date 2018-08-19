@@ -94,22 +94,6 @@ class VersionApiService
         }
     }
 
-    /**
-     * @param string $path
-     * @return array
-     * @throws \League\Flysystem\FileNotFoundException
-     */
-    public function prepareFileForDownload(string $path): array
-    {
-        $stream = $this->filesystem->readStream($path);
-        $size   = $this->filesystem->getSize($path);
-
-        return [
-            'stream' => $stream,
-            'size'   => $size,
-        ];
-    }
-
     # ---------------------------------------------------------------
     # - GETTERS AND SETTERS
     # ---------------------------------------------------------------
