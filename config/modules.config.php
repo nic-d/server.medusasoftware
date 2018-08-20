@@ -29,7 +29,6 @@ return [
     # OUR MODULES
     'Application',
     'Envato',
-    'Generate',
     'Install',
     'License',
     'Product',

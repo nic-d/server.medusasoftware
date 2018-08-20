@@ -24,7 +24,7 @@
                 All Licenses
             </a>
 
-            Edit License: {{ license.licenseCode }}
+            Edit License: {{ license.licenseCode | length > 40 ? license.licenseCode | slice(0, 40) ~ '...' : license.licenseCode }}
         </h2>
 
         <div class="block block-rounded block-fx-shadow">

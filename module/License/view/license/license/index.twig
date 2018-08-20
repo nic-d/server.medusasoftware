@@ -35,7 +35,9 @@
                     <tbody>
                         {% for item in licenses %}
                             <tr>
-                                <td>{{ item.licenseCode }}</td>
+                                <td>
+                                    {{ item.licenseCode | length > 40 ? item.licenseCode | slice(0, 40) ~ '...' : item.licenseCode }}
+                                </td>
                                 <td>{{ item.licensedIp }}</td>
                                 <td>{{ item.licensedDomain }}</td>
 

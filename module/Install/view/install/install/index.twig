@@ -31,9 +31,9 @@
                                     <td>{{ item.id }}</td>
                                     <td>
                                         {% if item.license %}
-                                        <a href="javascript:void(0);" class="license-modal" data-license-hash="{{ item.license.licenseCode }}">
-                                            {{ item.license.licenseCode }}
-                                        </a>
+                                            <a href="javascript:void(0);" class="license-modal" data-license-hash="{{ item.license.licenseCode }}">
+                                                {{ item.license.licenseCode | length > 40 ? item.license.licenseCode | slice(0, 40) ~ '...' : item.license.licenseCode }}
+                                            </a>
                                         {% else %}
                                             <span class="badge badge-secondary">nulled</span>
                                         {% endif %}
