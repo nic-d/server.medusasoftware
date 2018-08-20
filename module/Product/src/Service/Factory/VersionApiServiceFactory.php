@@ -31,12 +31,20 @@ class VersionApiServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        $eventManager = $container->get('EventManager');
         $versionService = $container->get(VersionService::class);
         $productService = $container->get(ProductService::class);
         $licenseService = $container->get(LicenseService::class);
         $filesystem = $container->get(FilesystemManager::class)->get('files');
         $downloadInputFilter = $container->get('InputFilterManager')->get(DownloadInputFilter::class);
 
-        return new VersionApiService($productService, $versionService, $licenseService, $downloadInputFilter, $filesystem);
+        return new VersionApiService(
+            $productService,
+            $versionService,
+            $licenseService,
+            $downloadInputFilter,
+            $filesystem,
+            $eventManager
+        );
     }
 }

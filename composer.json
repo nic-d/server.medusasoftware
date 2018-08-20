@@ -55,6 +55,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Activity\\": "module/Activity/src/",
             "Application\\": "module/Application/src/",
             "Envato\\": "module/Envato/src/",
             "Install\\": "module/Install/src/",

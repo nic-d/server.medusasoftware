@@ -2,34 +2,33 @@
 /**
  * Created by PhpStorm.
  * User: Nic
- * Date: 14/08/2018
- * Time: 17:49
+ * Date: 20/08/2018
+ * Time: 12:52
  */
 
-namespace Install\Service\Factory;
+namespace Activity\Service\Factory;
 
-use Install\Service\InstallService;
+use Activity\Service\ActivityService;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class InstallServiceFactory
- * @package Install\Service\Factory
+ * Class ActivityServiceFactory
+ * @package Activity\Service\Factory
  */
-class InstallServiceFactory implements FactoryInterface
+class ActivityServiceFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return InstallService|object
+     * @return ActivityService|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $eventManager = $container->get('EventManager');
-        $formManager = $container->get('FormElementManager');
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
 
-        return new InstallService($entityManager, $formManager, $eventManager);
+        return new ActivityService($entityManager, $eventManager);
     }
 }

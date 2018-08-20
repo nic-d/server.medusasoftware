@@ -26,10 +26,11 @@ class LicenseServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        $eventManager = $container->get('EventManager');
         $envatoService = $container->get('EnvatoApiService');
         $formManager = $container->get('FormElementManager');
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
 
-        return new LicenseService($entityManager, $formManager, $envatoService);
+        return new LicenseService($entityManager, $formManager, $envatoService, $eventManager);
     }
 }

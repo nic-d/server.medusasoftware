@@ -27,6 +27,7 @@ return [
 
 
     # OUR MODULES
+    'Activity',
     'Application',
     'Envato',
     'Install',

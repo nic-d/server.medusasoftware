@@ -1,0 +1,80 @@
+{% extends 'layout/app.twig' %}
+
+{% set meta = {
+    title: 'Activity Logs',
+} %}
+
+{% set activePage = 'activity' %}
+
+{% block body %}
+    <div class="content">
+        <h2 class="content-heading">
+            <span class="badge badge-secondary badge-pill float-right">
+                Page {{ currentPage }} of {{ totalPages }}
+            </span>
+
+            Activity Logs
+        </h2>
+
+        <div class="block block-rounded block-bordered">
+            <div class="block-content">
+                <table class="table table-sm table-vcenter">
+                    <thead>
+                        <tr>
+                            <th>Log Message</th>
+                            <th>IP</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in logs %}
+                            <tr>
+                                <td>{{ item.logMessage }}</td>
+                                <td>{{ item.ipAddress }}</td>
+                                <td>{{ item.timestamp.date | date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="block-content">
+                {% spaceless %}
+                    {% if totalPages > 1 %}
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                {% if currentPage > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url('activity.index', {}, {query: {page: currentPage-1}}) }}">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if currentPage < totalPages %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url('activity.index', {}, {query: {page: currentPage+1}}) }}">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                {% endspaceless %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

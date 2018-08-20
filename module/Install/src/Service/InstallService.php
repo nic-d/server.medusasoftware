@@ -9,9 +9,10 @@
 namespace Install\Service;
 
 use Install\Entity\Install;
-use Install\Form\InstallEditForm;
 use License\Entity\License;
 use Product\Entity\Product;
+use Install\Form\InstallEditForm;
+use Zend\EventManager\EventManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill as FormElementManager;
@@ -28,18 +29,24 @@ class InstallService
     /** @var FormElementManager $formElementManager */
     private $formElementManager;
 
+    /** @var EventManager $eventManager */
+    private $eventManager;
+
     /**
      * InstallService constructor.
      * @param EntityManagerInterface $entityManager
      * @param FormElementManager $formElementManager
+     * @param EventManager $eventManager
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        FormElementManager $formElementManager
+        FormElementManager $formElementManager,
+        EventManager $eventManager
     )
     {
         $this->entityManager = $entityManager;
         $this->formElementManager = $formElementManager;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -110,6 +117,12 @@ class InstallService
 
         $this->entityManager->persist($install);
         $this->entityManager->flush();
+
+        // Trigger events
+        $this->eventManager->trigger('activity.log', $this, [
+            'message' => 'New install for "' . $product->getName() . '" with license: "' . $license->getLicenseCode() . '"',
+            'ipAddress' => $_SERVER['REMOTE_ADDR'],
+        ]);
 
         return true;
     }

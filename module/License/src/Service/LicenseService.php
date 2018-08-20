@@ -9,14 +9,15 @@
 namespace License\Service;
 
 use License\Entity\License;
+use Product\Entity\Product;
 use License\Form\LicenseAddForm;
 use Envato\Service\EnvatoService;
 use License\Form\LicenseEditForm;
 use License\Form\LicenseDeleteForm;
 use License\Form\LicenseVerifyForm;
+use Zend\EventManager\EventManager;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
-use Product\Entity\Product;
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill as FormElementManager;
 
 /**
@@ -34,21 +35,27 @@ class LicenseService
     /** @var EnvatoService $envatoService */
     private $envatoService;
 
+    /** @var EventManager $eventManager */
+    private $eventManager;
+
     /**
      * LicenseService constructor.
      * @param EntityManagerInterface $entityManager
      * @param FormElementManager $formElementManager
      * @param EnvatoService $envatoService
+     * @param EventManager $eventManager
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         FormElementManager $formElementManager,
-        EnvatoService $envatoService
+        EnvatoService $envatoService,
+        EventManager $eventManager
     )
     {
         $this->entityManager = $entityManager;
         $this->formElementManager = $formElementManager;
         $this->envatoService = $envatoService;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -152,6 +159,7 @@ class LicenseService
      * @param string $code
      * @param string $ip
      * @param string $domain
+     * @param bool $skipConstraints
      * @return bool
      * @throws \ErrorException
      */
@@ -163,6 +171,12 @@ class LicenseService
             ->findOneBy([
                 'licenseCode' => $code,
             ]);
+
+        // Trigger events
+        $this->eventManager->trigger('activity.log', $this, [
+            'message' => 'License key verification from ' . $_SERVER['REMOTE_ADDR'] . ' with key: ' . $code,
+            'ipAddress' => $_SERVER['REMOTE_ADDR'],
+        ]);
 
         // The license exists in our database
         if (!is_null($license) && !$skipConstraints) {

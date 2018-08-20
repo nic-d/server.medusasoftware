@@ -12,6 +12,7 @@ use Product\Entity\Product;
 use Product\Entity\Version;
 use League\Flysystem\Filesystem;
 use License\Service\LicenseService;
+use Zend\EventManager\EventManager;
 use Product\Filter\DownloadInputFilter;
 
 /**
@@ -35,6 +36,9 @@ class VersionApiService
     /** @var Filesystem $filesystem */
     private $filesystem;
 
+    /** @var EventManager $eventManager */
+    private $eventManager;
+
     /**
      * VersionApiService constructor.
      * @param ProductService $productService
@@ -42,13 +46,15 @@ class VersionApiService
      * @param LicenseService $licenseService
      * @param DownloadInputFilter $downloadInputFilter
      * @param Filesystem $filesystem
+     * @param EventManager $eventManager
      */
     public function __construct(
         ProductService $productService,
         VersionService $versionService,
         LicenseService $licenseService,
         DownloadInputFilter $downloadInputFilter,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        EventManager $eventManager
     )
     {
         $this->productService = $productService;
@@ -56,6 +62,7 @@ class VersionApiService
         $this->downloadInputFilter = $downloadInputFilter;
         $this->licenseService = $licenseService;
         $this->filesystem = $filesystem;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -71,6 +78,12 @@ class VersionApiService
 
         /** @var Version $version */
         $version = $this->versionService->getLatestVersion($product);
+
+        // Trigger events
+        $this->eventManager->trigger('activity.log', $this, [
+            'message' => 'Version IsUpToDate request from ' . $_SERVER['REMOTE_ADDR'] . ' using the API.',
+            'ipAddress' => $_SERVER['REMOTE_ADDR'],
+        ]);
 
         return [
             'latestVersion' => $version->getVersionNumber(),
@@ -88,6 +101,12 @@ class VersionApiService
     {
         /** @var Product $product */
         $product = $this->productService->getProduct($productHash, 'hash');
+
+        // Trigger events
+        $this->eventManager->trigger('activity.log', $this, [
+            'message' => 'Version download request from ' . $_SERVER['REMOTE_ADDR'] . ' using the API.',
+            'ipAddress' => $_SERVER['REMOTE_ADDR'],
+        ]);
 
         if ($productVersion === 'latest') {
             return $this->versionService->getLatestVersion($product);
