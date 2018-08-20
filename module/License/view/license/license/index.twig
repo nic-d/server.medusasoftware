@@ -53,6 +53,44 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="block-content">
+                {% spaceless %}
+                    {% if totalPages > 1 %}
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                {% if currentPage > 1 %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url('license.index', {}, {query: {page: currentPage-1}}) }}">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">
+                                            <i class="fa fa-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if currentPage < totalPages %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url('license.index', {}, {query: {page: currentPage+1}}) }}">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">
+                                            <i class="fa fa-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                {% endspaceless %}
+            </div>
         </div>
     </div>
 

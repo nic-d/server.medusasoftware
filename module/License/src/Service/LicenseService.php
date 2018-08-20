@@ -17,6 +17,7 @@ use License\Form\LicenseDeleteForm;
 use License\Form\LicenseVerifyForm;
 use Zend\EventManager\EventManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill as FormElementManager;
 
@@ -37,6 +38,9 @@ class LicenseService
 
     /** @var EventManager $eventManager */
     private $eventManager;
+
+    /** @var int $resultsPerPage */
+    public $resultsPerPage = 15;
 
     /**
      * LicenseService constructor.
@@ -69,14 +73,18 @@ class LicenseService
     }
 
     /**
-     * @return array
+     * @param int $page
+     * @return Paginator
      */
-    public function getLicenses(): array
+    public function getLicenses(int $page = 1): Paginator
     {
-        /** @var array $licenses */
+        $limit = $this->resultsPerPage;
+        $offset = ($page === 0) ? 0 : ($page - 1) * $limit;
+
+        /** @var Paginator $licenses */
         $licenses = $this->entityManager
             ->getRepository(License::class)
-            ->findAll();
+            ->paginateLicenses($offset, $limit);
 
         return $licenses;
     }

@@ -11,6 +11,7 @@ namespace License\Repository;
 use License\Entity\License;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class LicenseRepository
@@ -40,5 +41,28 @@ class LicenseRepository extends EntityRepository
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     * @return Paginator
+     */
+    public function paginateLicenses(int $offset = 0, int $limit = 15)
+    {
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->getEntityManager()
+            ->createQueryBuilder();
+
+        $queryBuilder
+            ->select('l')
+            ->from(License::class, 'l')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        $query = $queryBuilder->getQuery();
+        $paginator = new Paginator($query);
+
+        return $paginator;
     }
 }

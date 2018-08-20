@@ -38,8 +38,12 @@ class LicenseController extends AbstractActionController
      */
     public function indexAction()
     {
-        // Get all licenses
-        $licenses = $this->licenseService->getLicenses();
+        /** @var int $page */
+        $page = $this->params()->fromQuery('page', 1);
+
+        // Get the paginated licenses
+        $licenses = $this->licenseService->getLicenses($page);
+        $totalPages = ceil($licenses->count() / $this->licenseService->resultsPerPage);
 
         // Prepare the verify form
         $form = $this->licenseService->prepareVerifyForm();
@@ -47,6 +51,8 @@ class LicenseController extends AbstractActionController
         return new ViewModel([
             'form' => $form,
             'licenses' => $licenses,
+            'currentPage' => $page,
+            'totalPages'  => $totalPages
         ]);
     }
 
