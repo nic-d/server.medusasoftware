@@ -33,6 +33,7 @@ class ActivityRepository extends EntityRepository
         $queryBuilder
             ->select('a')
             ->from(Activity::class, 'a')
+            ->orderBy('a.timestamp', 'DESC')
             ->setMaxResults($limit)
             ->setFirstResult($offset);
 
