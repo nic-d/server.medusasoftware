@@ -50,6 +50,20 @@ class InstallService
     }
 
     /**
+     * @param string $query
+     * @return array
+     */
+    public function search(string $query)
+    {
+        /** @var array $results */
+        $results = $this->entityManager
+            ->getRepository(Install::class)
+            ->search($query);
+
+        return $results;
+    }
+
+    /**
      * @return int
      */
     public function countInstallations(): int

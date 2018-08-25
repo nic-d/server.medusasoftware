@@ -49,6 +49,31 @@ class InstallController extends AbstractActionController
     }
 
     /**
+     * @return ViewModel
+     */
+    public function searchAction()
+    {
+        /** @var string|null $query */
+        $query = $this->params()->fromQuery('q', null);
+
+        if (is_null($query)) {
+            return $this->notFoundAction();
+        }
+
+        try {
+            $matchingResults = $this->installService->search($query);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
+            $matchingResults = [];
+        }
+
+        return new ViewModel([
+            'matchingResults' => $matchingResults,
+        ]);
+    }
+
+    /**
      * @return Response|ViewModel
      */
     public function viewAction()

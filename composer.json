@@ -51,7 +51,8 @@
         "zendframework/zend-log": "^2.10",
         "php-curl-class/php-curl-class": "^8.2",
         "zendframework/zend-hydrator": "^2.4",
-        "zendframework/zend-inputfilter": "^2.8"
+        "zendframework/zend-inputfilter": "^2.8",
+        "nesbot/carbon": "^1.33"
     },
     "autoload": {
         "psr-4": {

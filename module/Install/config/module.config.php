@@ -27,6 +27,16 @@ return [
 
                 'may_terminate' => true,
                 'child_routes'  => [
+                    'search' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/search',
+                            'defaults' => [
+                                'action' => 'search',
+                            ],
+                        ],
+                    ],
+
                     'view' => [
                         'type' => Segment::class,
                         'options' => [
@@ -66,7 +76,7 @@ return [
             Controller\InstallController::class => [
                 [
                     'roles'   => ['User'],
-                    'actions' => ['index', 'view'],
+                    'actions' => ['index', 'search', 'view'],
                 ],
             ],
         ],

@@ -10,6 +10,18 @@
     <div class="content">
         <h2 class="content-heading">
             All Installations
+
+            <div class="float-right">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+
+                    <input type="text" class="form-control border-left-0" id="query" name="query" placeholder="Search...">
+                </div>
+            </div>
         </h2>
 
         <div class="block block-rounded block-bordered">
@@ -25,7 +37,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="results">
                             {% for item in installations %}
                                 <tr data-hash="{{ item.hash }}">
                                     <td>{{ item.id }}</td>
@@ -193,5 +205,32 @@
                 }
             });
         });
+
+        $('#query').on('keyup', function (e) {
+            // Get the search query
+            let query = $(this).val();
+
+            delay(function() {
+                jQuery.ajax({
+                    method: 'get',
+                    url: '{{ url('install.index/search') }}?q=' + query,
+
+                    success: function (response) {
+                        $('#results').html(response);
+                    },
+
+                    error: function (response) {
+                    }
+                });
+            }, 700);
+        });
+
+        var delay = (function(){
+            var timer = 0;
+            return function(callback, ms){
+                clearTimeout (timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
     </script>
 {% endblock %}

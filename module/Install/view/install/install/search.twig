@@ -1,0 +1,28 @@
+{% for item in matchingResults %}
+    <tr data-hash="{{ item.hash }}">
+        <td>{{ item.id }}</td>
+        <td>
+            {% if item.license %}
+                <a href="javascript:void(0);" class="license-modal" data-license-hash="{{ item.license.licenseCode }}">
+                    {{ item.license.licenseCode | length > 40 ? item.license.licenseCode | slice(0, 40) ~ '...' : item.license.licenseCode }}
+                </a>
+            {% else %}
+                <span class="badge badge-secondary">nulled</span>
+            {% endif %}
+        </td>
+        <td>
+            <a href="javascript:void(0);" class="product-modal" data-product-hash="{{ item.product.hash }}">
+                {{ item.product.name }}
+            </a>
+        </td>
+        <td>{{ item.timestamp.date | date }}</td>
+
+        <td class="text-center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary launch-modal">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
