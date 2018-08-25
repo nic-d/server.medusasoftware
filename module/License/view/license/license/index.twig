@@ -18,6 +18,18 @@
                 Verify License Code
             </button>
 
+            <div class="float-right mr-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+
+                    <input type="text" class="form-control border-left-0" id="query" name="query" placeholder="Search...">
+                </div>
+            </div>
+
             All Licenses
         </h2>
 
@@ -32,7 +44,7 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="results">
                         {% for item in licenses %}
                             <tr>
                                 <td>
@@ -167,5 +179,32 @@
                 }
             });
         });
+
+        $('#query').on('keyup', function (e) {
+            // Get the search query
+            let query = $(this).val();
+
+            delay(function() {
+                jQuery.ajax({
+                    method: 'get',
+                    url: '{{ url('license.index/search') }}?q=' + query,
+
+                    success: function (response) {
+                        $('#results').html(response);
+                    },
+
+                    error: function (response) {
+                    }
+                });
+            }, 700);
+        });
+
+        var delay = (function(){
+            var timer = 0;
+            return function(callback, ms){
+                clearTimeout (timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
     </script>
 {% endblock %}

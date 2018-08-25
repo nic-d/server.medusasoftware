@@ -63,8 +63,6 @@ class InstallController extends AbstractActionController
         try {
             $matchingResults = $this->installService->search($query);
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
-            exit;
             $matchingResults = [];
         }
 

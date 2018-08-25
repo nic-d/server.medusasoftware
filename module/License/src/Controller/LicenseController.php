@@ -57,6 +57,29 @@ class LicenseController extends AbstractActionController
     }
 
     /**
+     * @return ViewModel
+     */
+    public function searchAction()
+    {
+        /** @var string|null $query */
+        $query = $this->params()->fromQuery('q', null);
+
+        if (is_null($query)) {
+            return $this->notFoundAction();
+        }
+
+        try {
+            $matchingResults = $this->licenseService->search($query);
+        } catch (\Exception $e) {
+            $matchingResults = [];
+        }
+
+        return new ViewModel([
+            'matchingResults' => $matchingResults,
+        ]);
+    }
+
+    /**
      * @throws \ErrorException
      */
     public function verifyAction()

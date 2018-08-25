@@ -29,6 +29,16 @@ return [
 
                 'may_terminate' => true,
                 'child_routes'  => [
+                    'search' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/search',
+                            'defaults' => [
+                                'action' => 'search',
+                            ],
+                        ],
+                    ],
+
                     'add' => [
                         'type' => Literal::class,
                         'options' => [
@@ -114,7 +124,7 @@ return [
             Controller\LicenseController::class => [
                 [
                     'roles'   => ['User'],
-                    'actions' => ['index', 'verify', 'add', 'view', 'edit', 'delete'],
+                    'actions' => ['index', 'search', 'verify', 'add', 'view', 'edit', 'delete'],
                 ],
             ],
         ],

@@ -63,6 +63,17 @@ class LicenseService
     }
 
     /**
+     * @param string $query
+     * @return mixed
+     */
+    public function search(string $query)
+    {
+        return $this->entityManager
+            ->getRepository(License::class)
+            ->search($query);
+    }
+
+    /**
      * @return int
      */
     public function countLicenses(): int
