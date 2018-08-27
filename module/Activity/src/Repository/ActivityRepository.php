@@ -125,20 +125,28 @@ class ActivityRepository extends EntityRepository
 
     private function buildToday()
     {
-        /** @var \DateTime $datetime */
-        $datetime = Carbon::now()->startOfDay();
+        $startOfDate = Carbon::now()->startOfDay();
+        $endOfDay = Carbon::now()->endOfDay();
 
-        $this->queryBuilder->where('a.timestamp = :date');
-        $this->queryBuilder->setParameter('date', $datetime);
+        $this->queryBuilder->where('a.timestamp >= :start');
+        $this->queryBuilder->andWhere('a.timestamp <= :end');
+        $this->queryBuilder->setParameters([
+            'start' => $startOfDate,
+            'end'   => $endOfDay,
+        ]);
     }
 
     private function buildYesterday()
     {
-        /** @var \DateTime $datetime */
-        $datetime = Carbon::now()->subDay(1)->startOfDay();
+        $startOfDate = Carbon::now()->subDay(1)->startOfDay();
+        $endOfDay = Carbon::now()->subDay()->endOfDay();
 
-        $this->queryBuilder->where('a.timestamp = :date');
-        $this->queryBuilder->setParameter('date', $datetime);
+        $this->queryBuilder->where('a.timestamp >= :start');
+        $this->queryBuilder->andWhere('a.timestamp <= :end');
+        $this->queryBuilder->setParameters([
+            'start' => $startOfDate,
+            'end'   => $endOfDay,
+        ]);
     }
 
     private function buildThisWeek()
