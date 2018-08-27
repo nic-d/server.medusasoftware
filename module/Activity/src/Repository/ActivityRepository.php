@@ -138,7 +138,7 @@ class ActivityRepository extends EntityRepository
 
     private function buildYesterday()
     {
-        $startOfDate = Carbon::now()->subDay(1)->startOfDay();
+        $startOfDate = Carbon::now()->subDay()->startOfDay();
         $endOfDay = Carbon::now()->subDay()->endOfDay();
 
         $this->queryBuilder->where('a.timestamp >= :start');

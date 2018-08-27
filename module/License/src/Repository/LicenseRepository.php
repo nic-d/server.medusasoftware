@@ -148,20 +148,30 @@ class LicenseRepository extends EntityRepository
 
     private function buildToday()
     {
-        /** @var \DateTime $datetime */
-        $datetime = Carbon::now()->startOfDay();
+        $startOfYear = Carbon::now()->startOfDay();
+        $endOfYear   = Carbon::now()->endOfDay();
 
-        $this->queryBuilder->where('l.timestamp = :date');
-        $this->queryBuilder->setParameter('date', $datetime);
+        $this->queryBuilder->where('l.timestamp >= :start');
+        $this->queryBuilder->andWhere('l.timestamp <= :end');
+
+        $this->queryBuilder->setParameters([
+            'start' => $startOfYear,
+            'end'   => $endOfYear,
+        ]);
     }
 
     private function buildYesterday()
     {
-        /** @var \DateTime $datetime */
-        $datetime = Carbon::now()->subDay(1)->startOfDay();
+        $startOfYear = Carbon::now()->subDay()->startOfDay();
+        $endOfYear   = Carbon::now()->subDay()->endOfDay();
 
-        $this->queryBuilder->where('l.timestamp = :date');
-        $this->queryBuilder->setParameter('date', $datetime);
+        $this->queryBuilder->where('l.timestamp >= :start');
+        $this->queryBuilder->andWhere('l.timestamp <= :end');
+
+        $this->queryBuilder->setParameters([
+            'start' => $startOfYear,
+            'end'   => $endOfYear,
+        ]);
     }
 
     private function buildThisWeek()
