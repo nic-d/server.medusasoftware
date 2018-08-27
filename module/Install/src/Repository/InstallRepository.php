@@ -148,7 +148,7 @@ class InstallRepository extends EntityRepository
     private function buildToday()
     {
         /** @var \DateTime $datetime */
-        $datetime = Carbon::now();
+        $datetime = Carbon::now()->startOfDay();
 
         $this->queryBuilder->where('i.timestamp = :date');
         $this->queryBuilder->setParameter('date', $datetime);
@@ -157,7 +157,7 @@ class InstallRepository extends EntityRepository
     private function buildYesterday()
     {
         /** @var \DateTime $datetime */
-        $datetime = Carbon::now()->subDay(1);
+        $datetime = Carbon::now()->subDay(1)->startOfDay();
 
         $this->queryBuilder->where('i.timestamp = :date');
         $this->queryBuilder->setParameter('date', $datetime);

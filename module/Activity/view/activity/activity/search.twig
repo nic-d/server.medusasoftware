@@ -1,0 +1,7 @@
+{% for item in matchedResults %}
+    <tr>
+        <td>{{ item.logMessage }}</td>
+        <td>{{ item.ipAddress }}</td>
+        <td>{{ item.timestamp.date | date }}</td>
+    </tr>
+{% endfor %}

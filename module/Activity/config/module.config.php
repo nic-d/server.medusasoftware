@@ -25,6 +25,19 @@ return [
                         'action'     => 'index',
                     ],
                 ],
+
+                'may_terminate' => true,
+                'child_routes'  => [
+                    'search' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route'    => '/search',
+                            'defaults' => [
+                                'action'     => 'search',
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ],
     ],
@@ -40,7 +53,7 @@ return [
             Controller\ActivityController::class => [
                 [
                     'roles'   => ['User'],
-                    'actions' => ['index'],
+                    'actions' => ['index', 'search'],
                 ],
             ],
         ],

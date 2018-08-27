@@ -43,6 +43,17 @@ class ActivityService
     }
 
     /**
+     * @param string $query
+     * @return mixed
+     */
+    public function search(string $query)
+    {
+        return $this->entityManager
+            ->getRepository(Activity::class)
+            ->search($query);
+    }
+
+    /**
      * @param int $page
      * @return Paginator
      */

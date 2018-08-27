@@ -19,6 +19,18 @@
                 of {{ totalPages }}
             </span>
 
+            <div class="float-right mr-2">
+                <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+
+                    <input type="text" class="form-control border-left-0" id="query" name="query" placeholder="Search...">
+                </div>
+            </div>
+
             Activity Logs
         </h2>
 
@@ -32,7 +44,7 @@
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="results">
                         {% for item in logs %}
                             <tr>
                                 <td>{{ item.logMessage }}</td>
@@ -83,4 +95,35 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $('#query').on('keyup', function (e) {
+            // Get the search query
+            let query = $(this).val();
+
+            delay(function() {
+                jQuery.ajax({
+                    method: 'get',
+                    url: '{{ url('activity.index/search') }}?q=' + query,
+
+                    success: function (response) {
+                        $('#results').html(response);
+                    },
+
+                    error: function (response) {
+                    }
+                });
+            }, 700);
+        });
+
+        var delay = (function(){
+            var timer = 0;
+            return function(callback, ms){
+                clearTimeout (timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+    </script>
 {% endblock %}
