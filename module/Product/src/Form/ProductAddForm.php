@@ -103,5 +103,11 @@ class ProductAddForm extends Form
         /** @var InputFilter $inputFilter */
         $inputFilter = new InputFilter();
         $this->setInputFilter($inputFilter);
+
+        $inputFilter->add([
+            'name' => 'envatoProduct',
+            'required' => false,
+            'filters' => [],
+        ]);
     }
 }

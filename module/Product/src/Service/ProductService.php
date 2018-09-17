@@ -145,7 +145,7 @@ class ProductService
         $user = $this->entityManager->merge($identity);
         $product->setCreatedByUser($user);
 
-        if (!is_null($productAddForm->get('envatoProduct')->getValue())) {
+        if (!is_null($productAddForm->get('envatoProduct')->getValue()) && !empty($productAddForm->get('envatoProduct')->getValue())) {
             /** @var int $selectedProductId */
             $selectedProductId = $productAddForm->get('envatoProduct')->getValue();
 
